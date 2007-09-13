@@ -1,0 +1,24 @@
+   <tr>
+    <td class="form_fields_required">Name:</td>
+    <td class="value"><%= text_field("user", "fullname") %></td>
+  </tr>
+ <tr>
+    <td class="form_fields_required">Email Address:</td>
+    <td class="value"><%= text_field("user", "email") %></td>
+  </tr>
+  <tr>
+    <td class="form_fields_required">Password:</td>
+    <td class="value"><%= password_field_tag("password",params[:password]) %></td>
+  </tr>
+  <tr>
+    <td class="form_fields_required">Password<br/>(enter again for confirmation):</td>
+    <td class="value"><%= password_field_tag("password_confirmation",params[:password_confirmation]) %></td>
+  </tr>  
+   <tr>
+    <td class="form_fields">Address:</td>
+    <td class="value"><%= text_area("user","address",:cols=>40, :rows=>5) %></td>
+  </tr>    
+     <tr>
+    <td class="form_fields">Institution:</td>
+    <td class="value"><%= text_field("user","institution") %></td>
+  </tr>    

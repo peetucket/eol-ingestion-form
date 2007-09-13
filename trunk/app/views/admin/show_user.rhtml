@@ -1,0 +1,15 @@
+<h1>View User</h1><br/>
+<table>
+<tr><td width="30%">Name:</td><td><%=h @user.fullname%></td></tr>
+<tr><td width="30%">Email:</td><td><%=h @user.email%></td></tr>
+<tr><td width="30%">Institution:</td><td><%=h @user.institution%></td></tr>
+<tr><td width="30%">Address:</td><td><%=h @user.address%></td></tr>
+<tr><td width="30%">Account Active:</td><td><%=h @user.active%></td></tr>
+<tr><td width="30%">Administrator:</td><td><%=h @user.admin%></td></tr>
+<tr><td width="30%">Date Updated:</td><td><%=h format_date(@user.updated_at)%></td></tr>
+<tr><td width="30%">Date Created:</td><td><%=h format_date(@user.created_at)%></td></tr>
+</table>
+<br/>
+<%= link_to 'Back', :action => 'list_users' %> |
+<%= link_to 'Edit', :action => 'edit_user', :id => @user %> 
+

@@ -1,0 +1,6 @@
+	<table width=50% class="observation">
+	 <tr><th width=50%>Attribute</th><th width=50%>Value</th></tr>
+	<% @entry.data_points.each do |data_point|%>
+		<tr><td><%= data_point.attribute_value.name%></td><td><%=data_point.value%></td></tr>
+	<% end %>
+	</table>

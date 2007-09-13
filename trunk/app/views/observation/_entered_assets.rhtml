@@ -1,0 +1,8 @@
+<% if session[:assets] != nil %>
+	<table width=50% class="observation">
+	 <tr><th width=50%>Asset</th><th width=50%>Type</th></tr>
+	<% session[:assets].each do |asset|%>
+		<tr><td><%=asset.description%></td><td><%=asset.asset_type.name%></td></tr>	
+	<% end %>
+	</table>
+<% end %>

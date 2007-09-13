@@ -1,0 +1,5 @@
+if @web_service_response.nil? 
+  "<xml><error>true</error></xml>"
+else
+  @web_service_response.to_xml
+end

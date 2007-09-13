@@ -1,0 +1,8 @@
+<% if session[:attribute_values] != nil %>
+	<table width=50% class="observation">
+	 <tr><th width=50%>Attribute</th><th width=50%>Value</th></tr>
+	<% session[:attribute_values].each do |values|%>
+		<tr><td><%=values[0]%></td><td><%=values[1]%></td></tr>	
+	<% end %>
+	</table>
+<% end %>

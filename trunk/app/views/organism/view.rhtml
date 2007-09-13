@@ -1,0 +1,37 @@
+
+<h1><%= @organism.name %></h1>
+<br/>
+<p><br/>There were <%=@num_entries%> results returned <% if @num_entries == @limit.to_i %>(limited to <%=@limit%>).<% end %></p>
+ <% form_tag :action=>"view", :id=>@organism.id do %>
+ 		<br/>
+		<span class="form_fields">Limit to <%= select_tag(:limit,options_for_select([["10","10"],["50","50"],["100","100"],["500","500"],["1000","1000"],["5000","5000"]],@limit))%> results &nbsp;&nbsp;&nbsp;<input type="button" value="Submit" id="submit_button" name="submit_button" onclick="submitForm();"></span>
+
+ <% end %>
+<%= link_to "[add an organism description]", :controller=>"organism_info", :action => "record", :id => @organism.id %>
+
+<% if @organism_infos.size == 1 %>
+	<div id="descriptions">
+		<h4>Latest Description:</h4><%=link_to_remote("[View all]",:update=>"descriptions",:loading=>"showAjaxIndicator();",:complete=>"hideAjaxIndicator();",:url=>{:controller=>"organism_info",:action=>"view", :id=>@organism.id})%>
+
+		<%= render(:partial=>'organism_info/view',:object=>@organism_infos) %>
+	</div>
+<br/>
+<% end %>
+
+<h4>Observations:</h4>
+<% if @entries.size == 0 %>
+	
+	<p>There have not been any observations for this organism.  <%= link_to "Be the first!", :controller => "observation", :action => "record", :id=>@organism.id %></p>
+
+<% else %>
+	
+	<a href="#map">[view map]</a> | <a href="<%=request.request_uri%>?kml=true">[download Google Earth file]</a><br/>
+	<div id="entryTable">
+	    <%= render(:partial=>'shared/organism_observations',:object=>@entries) %>
+	</div>
+
+	<br/><br/>
+	
+	<%= render(:partial=>'shared/google_map',:object=>@map,:locals=>{:show_icon_message=>true,:show_quick_zoom=>true,:show_quick_jump=>true, :width=>600,:height=>400}) %>
+	
+<% end %>

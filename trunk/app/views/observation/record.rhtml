@@ -1,0 +1,126 @@
+
+<script type="text/javascript" language="JavaScript">
+
+function addAttribute() {
+		// call remote function to add attribute value pair
+		new Ajax.Request('/observation/ajax_add_attribute', {asynchronous:true, evalScripts:true, method:'post', onComplete:function(request){hideAjaxIndicator();}, onLoading:function(request){showAjaxIndicator();}, parameters:Form.serialize('formDIV')});
+}
+
+function addAsset() {
+		// call remote function to add asset
+		new Ajax.Request('/observation/ajax_add_asset', {asynchronous:true, evalScripts:true, method:'post', onComplete:function(request){hideAjaxIndicator();}, onLoading:function(request){showAjaxIndicator();}, parameters:Form.serialize('formDIV')});
+}
+
+
+</script>
+
+<h1>Observation for "<%= @organism.name %>"</h1>
+
+<p>Enter the details of your observation below.  <%=required_field_message%></p>
+
+<%= error_messages_for 'entry' %>
+<%= error_messages_for 'image' %>
+
+<% form_tag({:action=>"record",:id=>@organism.id},{:multipart => true}) do %>
+
+<div id="formDIV">
+
+<table class="form">
+ <tr><td valign="top" width="150"><span class="form_fields_required">Location</span></td><td>
+ 	<table border="0">
+ 		<tr><td colspan="2">Address/Placename/ZipCode (e.g. 2 Main Street, Worcester, MA or Reston, VA or 22101):</td></tr>
+		<tr><td colspan="2"><%= text_field(:entry, :location,{:size=>50, :maxlength=>255})%>
+		<span class="warning" id="response_message"></span>
+		<br/><a href="JavaScript:getCoords();">[find address on map & update coordinates]</a> | <a href="JavaScript:toggleElement('coordinates');">[toggle coordinates display]</a>	
+		
+		</td></tr>
+		<tr><td>Confidence range:</td><td>within <%= text_field(:entry,:confidence_range,{:size=>5, :maxlength=>5, :onchange=>'changeConfidenceRange();'})%> <%= select(:entry,:confidence_range_units,["miles","kilometers"],{},{:onchange=>'changeConfidenceRange();'})%> of indicated location</td></tr>
+		<tr><td colspan="2">
+		<div style="display:none;" id="coordinates">
+			<%= render(:partial=>'shared/lat_lon_entry',:object=>@entries) %>
+		</div>
+		</td></tr>
+		<tr><td colspan="2">
+		Click on the map to adjust the coordinates to your clicked location<br/>
+				<%= render(:partial=>'shared/google_map',:object=>@map,:locals=>{:show_icon_message=>false,:show_quick_zoom=>true, :width=>400,:height=>400, :show_quick_jump=>false}) %>
+			
+		</td>
+		</tr>
+ 	</table>
+ </td></tr>	
+ <tr>
+	 <td valign="top" width="150"><span class="form_fields_required">Date and Time:</span></td>
+	 <td valign="top"> <%= calendar_date_select :entry, :date, {:size=>30,:time=>true,:onFocus=>"this.blur();"} %></td>
+ </tr>
+  <tr>
+	 <td valign="top" width="150"><span class="form_fields_required">Number seen:</span></td>
+	 <td valign="top"> <%= text_field(:entry, :number,{:size=>5, :maxlength=>5}) %></td>
+ </tr>
+  <tr>
+	 <td valign="top" width="150"><span class="form_fields_required">Habitat:</span></td>
+	 <td valign="top"> <%= collection_select(:entry, :habitat_id, Habitat.all, :id, :name)%></td>
+ </tr>
+   <tr>
+	 <td valign="top" width="150"><span class="form_fields">Temperature:</span></td>
+	 <td valign="top"> <%= text_field(:entry, :temperature,{:size=>5, :maxlength=>5}) %>
+	&deg;<%= select_tag(:temp_units,options_for_select(["c","F"]))%></td>
+ </tr> 
+  <tr>
+	 <td valign="top" width="150"><span class="form_fields">Salinity:</span></td>
+	 <td valign="top"> <%= text_field(:entry, :salinity,{:size=>5, :maxlength=>5}) %></td>
+ </tr> 
+ <tr>
+	 <td valign="top" width="150"><span class="form_fields">Description:</span></td>
+	 <td valign="top"><%= text_area(:entry, :description, {:autocomplete => 'off' ,:cols=>50, :rows=>5}) %></td>
+ </tr>
+ <tr>
+	 <td valign="top" width="150"><span class="form_fields">Image:</span><br/>
+	 Image should be no larger than 500k in size, it will be automatically resized upon uploading</span></td>
+	 <td valign="top"><%= file_field_tag(:uploaded_data) %></td>
+ </tr>
+ <tr><td><span class="form_fields">Other attributes:</span></td><td>enter attribute name (select from existing if shown), enter value and click "add attribute"</td></tr>
+ <tr><td colspan="2"><div id="entered_attributes"><%= render(:partial=>'entered_attributes')%></div></td></tr>
+ <tr><td><span class="form_fields">New attribute name:</span></td><td valign="top"><%= text_field(:attribute_value, :name, {:autocomplete => 'off' ,:size=>30, :maxlength=>200}) %>
+	   <div class="auto_complete" id="attribute_value_name_auto_complete"></div>
+	   <%= auto_complete_field :attribute_value_name,:min_chars=>3,:url => {:action => 'get_attribute_value_names' } %>     
+	 </td>
+ </tr>
+ <tr><td><span class="form_fields">New attribute value:</span></td><td valign="top"><%= text_field(:data_point, :value, {:autocomplete => 'off' ,:size=>30, :maxlength=>200}) %>
+	   <div class="auto_complete" id="data_point_value_auto_complete"></div>
+	   <%= auto_complete_field :data_point_value,:min_chars=>2,:with=>"'data_point_value=' + document.forms[0].data_point_value.value + '&attribute_value_name=' + document.forms[0].attribute_value_name.value",:url => {:action => 'get_data_point_values' } %>     
+	 </td>
+ </tr>
+ <tr><td></td><td><input type="button" onClick="addAttribute();" id="add_attribute_button" name="add_attribute_button" value="Add Attribute"></td></tr>
+
+<tr><td><span class="form_fields">Other assets:</span></td><td>enter asset description and asset URL, then click "add asset"</td></tr>
+ <tr><td colspan="2"><div id="entered_assets"><%= render(:partial=>'entered_assets')%></div></td></tr>
+ <tr><td><span class="form_fields">Asset Description:</span></td><td valign="top"><%= text_field(:asset, :description, {:size=>30, :maxlength=>200}) %></td> </tr>
+ <tr><td><span class="form_fields">Asset URL:</span></td><td valign="top"><%= text_field(:asset, :url, {:size=>30, :maxlength=>200}) %></td> </tr>
+  <tr>
+	 <td valign="top" width="150"><span class="form_fields">Asset type:</span></td>
+	 <td valign="top"> <%= collection_select(:asset, :asset_type_id, AssetType.all, :id, :name)%></td>
+ </tr>
+
+ <tr><td></td><td><input type="button" onClick="addAsset();" id="add_asset_button" name="add_asset_button" value="Add Asset"></td></tr>
+
+ <tr><td></td><td><%= check_box_tag (:another_entry, value="true") %> Add another observation at the same location after submitting this one</td></tr>
+
+  <tr>
+ <td></td>
+  <td align=center>Please be sure you have the correct coordinates shown before clicking submit<br/>
+  <input type="button" onClick="submitForm();" id="submit_button" class="form_fields_required" name="submit_button" value="Complete Observation"></td>
+</tr>
+</table>
+</div>
+
+<% end %>
+
+<% if @entry.lat !=nil && @entry.lon != nil then # if we have a latitude and longitude, set the map up%>
+<script language="JavaScript" type="text/javascript">
+	addLoadEvent(ajaxUpdateMap);	
+</script>	
+<% elsif @entry.location != nil && @entry.location != "" then # if we didn't have a lat/lon, but have an address, geocode and set the map up%>
+<script language="JavaScript" type="text/javascript">
+	addLoadEvent(getCoords);	
+</script>	
+<% end %>

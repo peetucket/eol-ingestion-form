@@ -1,0 +1,8 @@
+    <br/>
+    <% for organism_info in @organism_infos %>
+        <span class="form_fields">Submitted by:</span> <%=organism_info.user.fullname%><br/>
+		<span class="form_fields">Date:</span> <%=organism_info.date%><br/>
+		<span class="form_fields">Description:</span><br/>
+		<%=organism_info.description%>
+		<br/><br/>
+    <% end %>

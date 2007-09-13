@@ -1,0 +1,12 @@
+<h1>Search for organisms:</h1>
+
+
+<% form_tag do %>
+
+		<div id="organismDIV">
+			<%= render(:partial=>'shared/search_by_organism',:object=>@your_organisms,:locals=>{:show_your_organisms=>true}) %>
+		</div>
+		
+<input type="button" value="Submit" id="submit_button" name="submit_button" onclick="submitForm();">
+
+<% end %>		

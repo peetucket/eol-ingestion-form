@@ -1,0 +1,5 @@
+page.replace_html 'entered_attributes',:partial=>'entered_attributes' 
+page['attribute_value_name'].value=""
+page['data_point_value'].value=""
+
+page.call 'hideAjaxIndicator'

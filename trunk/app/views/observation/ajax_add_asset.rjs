@@ -1,0 +1,5 @@
+page.replace_html 'entered_assets',:partial=>'entered_assets' 
+page['asset_description'].value=""
+page['asset_url'].value=""
+
+page.call 'hideAjaxIndicator'

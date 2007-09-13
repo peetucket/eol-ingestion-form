@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+
+<%
+
+  all_header_images=["header_bear.jpg","header_cactus.jpg","header_earth.jpg","header_entosiphon.jpg","header_imagine.jpg","header_moss.jpg","header_mushroom.png"]
+  header_image=all_header_images[rand(all_header_images.size)]
+
+%>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>
+	 <% if @html_page_title != nil %>
+        <%= h @html_page_title + " - " + $WEBSITE_NAME%>
+     <%else%>
+        <%= h $WEBSITE_NAME %>
+     <%end%>
+</title>
+
+<link rel="Shortcut Icon" href="/favicon.ico">
+<link href="/stylesheets/eol-styles.css" rel="stylesheet" type="text/css">
+<link href="/stylesheets/ingestion_form-styles.css" rel="stylesheet" type="text/css">
+<%= javascript_include_tag "map_functions" %>
+<%= javascript_include_tag "application" %>
+<%= javascript_include_tag "tooltip" %>
+<%= javascript_include_tag "prototype", "effects", "controls" %>
+<%= calendar_date_select_includes %>
+<%= GMap.header %>
+<%= javascript_include_tag("markerGroup") %>
+	
+<style type="text/css">
+<!--
+.style1 {color: #666666}
+-->
+</style></head>
+
+<body>
+<div style="height: 100%;" id="outer">
+<div id="green_bar"></div>
+<div id="header"><a href="http://eol.org/home.html"><img src="/images/eol_logo_header.png" alt="" border="0" height="88" width="158"></a> <h2>Data Ingestion Form</h2></div>
+<div><img src="/images/<%=header_image%>" id="header_image" border="0" width="982"></div>
+        
+		<div id="topNav">
+              <%= format_date_time(Time.now) %><br/>
+              <% if session[:user].nil? %>
+ 			     <%= link_to("[Login]",{:controller=>"user",:action=>"login"})%> | <%= link_to("[Create Account]",{:controller=>"user",:action=>"create"})%>
+ 		     	<% else %>              
+               	Welcome <%= h(session[:user].fullname)%> |
+                <%= link_to("[Change Account Info]",{:controller=>"user", :action=>"edit"})%> | <%= link_to("[Log Out]",{:controller=>"user", :action=>"logout"})%>
+			<% end %>
+			
+			<div style="display:none;" class="ajax-indicator" id="ajax-indicator"><img src="/images/indicator_arrows_black.gif" alt="Working..."/></div>
+		</div>
+		
+<div id="bodyblock" align="right">
+<div id="l-col" class="menu" align="left">
+
+<%= link_to("Home", {:controller => "home", :action=>"index"}, {:class=>"menu"})%>
+<%= link_to("Find Organisms", {:controller => "organism", :action=>"search"}, {:class=>"menu"})%>
+<%= link_to("Find Observations", {:controller => "observation", :action=>"search"}, {:class=>"menu"})%>
+<%= link_to("Record Observation",{:controller => "observation", :action=>"enter_species"}, {:class=>"menu"})%>
+	
+	<% if session[:user] != nil && session[:user].admin %>
+		  <hr>
+	      <%= link_to("Edit Users",{:controller=>"admin", :action=>"list_users"}, {:class=>"menu"})%>
+	<% end %>
+
+</div>
+<div id="content">
+
+	<%= show_messages %>
+		
+  <div class="prop min150px"></div>
+  
+	<%= yield %>
+
+  <div class="clear"></div>
+
+</div>
+
+</div><br>&nbsp;<br>&nbsp;
+</div>
+
+</body></html>

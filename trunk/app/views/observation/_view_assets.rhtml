@@ -1,0 +1,13 @@
+
+	<% @entry.assets.each do |asset|
+		 case asset.asset_type.name 
+
+			when 'You Tube Video' then %>
+			<p><%=asset.description%></p>
+				<object width="425" height="350"><param name="movie" value="<%=asset.url%>"></param><param name="wmode" value="transparent"></param><embed src="<%=asset.url%>" type="application/x-shockwave-flash" wmode="transparent" width="425" height="350"></embed></object>
+			<%
+			when 'URL' then %> 
+				<li><a href="<%=asset.url%>" target="_blank"><%=asset.description%></a></li>
+			<%
+			end
+	 end %>

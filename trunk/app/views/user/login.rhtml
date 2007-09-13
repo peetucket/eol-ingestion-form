@@ -1,0 +1,28 @@
+<h1>Login</h1>
+
+<p>In order to add your observations, please login below.  If you do
+not have an account, <%= link_to "create one",:controller=>"user", :action=>"create"%>.</p>
+    
+
+<% form_tag :action=>"login" do %>
+<table class="formTable">
+
+    <tr>
+	  <td class="form_fields">Email Address:</td>
+	  <td class="value"><%= text_field_tag(:email,params[:email],:size=>30, :maxlength=>75) %></td>
+    </tr>
+    <tr> 	 
+	  <td class="form_fields">Password:</td>
+	  <td class="value"><%= password_field_tag(:password,params[:password],:size=>30, :maxlength=>75)%></td>
+	</tr>   
+</table>    
+
+      <div class="button-bar">
+        <%= submit_tag 'Submit',{:class => "submitButton"} %>
+      </div>
+      
+
+<% end %>
+<br/>
+<%= link_to "I forgot my password",:controller=>"user", :action=>"forgot_password"%>
+

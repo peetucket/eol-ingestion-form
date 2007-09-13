@@ -1,0 +1,21 @@
+<h1>Welcome to the Enclopedia of Life Data Ingestion Form</h1>
+<p><br/></p>
+<p>Have you seen an organism today?</p>
+<p><%= link_to "Tell us about it!", :controller => "observation", :action => "enter_species" %></p>
+
+	<br/><br/>
+	<%= render(:partial=>'shared/google_map',:object=>@map,:locals=>{:show_icon_message=>true,:show_quick_zoom=>true, :width=>600,:height=>400, :show_quick_jump=>true}) %>
+
+<p><br/></p>
+<p>The latest observations recorded are shown below, updated every 30 seconds:</p>
+
+<div id="entryTable">
+    <%= render(:partial=>'observations',:object=>@entries) %>
+</div>
+
+
+<%= periodically_call_remote(:url=>{:action=>'ajax_update_latest_entries'},:update=>"entryTable",:frequency=>30) %>
+
+<script language="JavaScript" type="text/javascript">
+	addLoadEvent(getCoords);	
+</script>

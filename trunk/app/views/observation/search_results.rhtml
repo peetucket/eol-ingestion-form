@@ -1,0 +1,153 @@
+
+<script language="JavaScript" type="text/javascript">
+	function update_search_result_markers(organisms,users)
+	{
+		showAjaxIndicator();
+		$('updateMap').value='Please Wait...';
+		$('updateMap').disabled='true';
+		new Ajax.Updater('mapUpdates','/observation/ajax_update_search_results?limit=<%=@limit%>&entry[lat]=<%=@lat%>&entry[lon]=<%=@lon%>&range_units=<%=@range_unit%>&range=<%=@range%>&organism_ids=' + organisms + '&user_ids=' + users, {asynchronous:true, evalScripts:true})
+	}
+	
+	function update_map()
+	{
+		var organisms = "";
+		<% if @location_search==true %>
+		<% if @unique_organisms.size > 1 %>
+		for (var i=0; i < document.forms[0].organisms.length; i++)
+		   {
+		   if (document.forms[0].organisms[i].checked)
+		      {
+		      organisms = organisms + document.forms[0].organisms[i].value + ",";
+		      }
+		   }
+		 if (organisms=="") {
+		 	window.alert('You should select at least one organism for display.');
+			return false;
+		 }
+		<% end %>
+		var users = "";
+		<% if @unique_users.size > 1 %>
+		for (var i=0; i < document.forms[0].observers.length; i++)
+		   {
+		   if (document.forms[0].observers[i].checked)
+		      {
+		      users = users + document.forms[0].observers[i].value + ",";
+		      }
+		   }	
+		 if (users=="") {
+		 	window.alert('You should select at least one observer for display.');
+			return false;
+		 }
+		   	   
+		<% end %>
+		<% end %>
+		
+		update_search_result_markers(organisms,users);
+
+	}
+	
+ function toggle_checkbox(checkbox,value)
+ {
+ 		for (var i=0; i < checkbox.length; i++)
+		   {
+		   	checkbox[i].checked = value;
+		   }
+ }
+</script>
+
+<h1>Search Results</h1>
+
+
+		<%= link_to "[search again]", :controller => "observation", :action => "search" %>
+	
+
+<p>There were <%=@num_entries%> results returned <% if @num_entries == @limit.to_i %>(limited to <%=@limit%>).<% end %>
+
+
+	
+<table class="observation">
+	
+<% if @location_search %>
+	<tr><th>Location</th><td><a href="#map" onclick="JavaScript:panAndZoom(<%=@lat%>,<%=@lon%>,8);"><%=formatLatLonDecimalAsDegrees(@range.to_f,@range_unit,@lat,@lon)%></a>
+	(<%=@location%>).</td></tr>
+<% end %>
+
+<% if @observer_name != "" %>
+
+	<tr><th>Observed by</th><td><%=@observer_name%></td></tr>
+
+<% end %>
+
+<% if @organism_name != "" %>
+
+	<tr><th>Organism</th><td><%=@organism_name%></td></tr>
+
+<% end %>
+
+<% if @description != "" %>
+
+	<tr><th>Description contains</th><td><%=@description%></td></tr>
+
+<% end %>
+
+<% if @habitat_id != "" %>
+
+	<tr><th>Habitat</th><td><%=Habitat.find(@habitat_id).name%></td></tr>
+
+<% end %>
+
+</table>
+<br/>
+	
+	<%= render(:partial=>'shared/google_map',:object=>@map,:locals=>{:show_icon_message=>true,:show_quick_zoom=>true, :width=>600,:height=>400, :show_quick_jump=>true}) %>
+	<br/>
+</p>
+
+<% if @num_entries == 0 %>
+	
+	<p>There have not been any observations for the specified search parameters.</p>
+	
+<% else %>
+
+
+	<% if @location_search %>
+		<a href="JavaScript:toggleElement('mapFilters');">[toggle map filters]</a><br/><br/>
+	<div id="mapFilters" style="display:none;">
+	   <% form_tag do %>
+		
+		<% if @unique_users.size > 1 %>
+
+		<a href="JavaScript:toggle_checkbox(document.forms[0].observers,true);">[check all observers]</a> | <a href="JavaScript:toggle_checkbox(document.forms[0].observers,false);">[uncheck all observers]</a>
+		<table width=50% class="observation">
+		 <tr><th width=50%>Observer</th><th width=50%>Display</th></tr>
+		 <% @unique_users.each do |values|%>
+			<tr><td><%=values[0]%></td><td><%= check_box_tag(:observers,values[1],true) %></td></tr>
+		 <% end %>		
+		</table>	
+		<br/>
+		<% end %>
+
+		<% if @unique_organisms.size > 1 %>
+
+		<a href="JavaScript:toggle_checkbox(document.forms[0].organisms,true);">[check all organisms]</a> | <a href="JavaScript:toggle_checkbox(document.forms[0].organisms,false);">[uncheck all organisms]</a>
+		<table width=50% class="observation">
+		 <tr><th width=50%>Organism</th><th width=50%>Display</th></tr>
+		 <% @unique_organisms.each do |values|%>
+			<tr><td><%=values[0]%></td><td><%= check_box_tag(:organisms,values[1],true) %></td></tr>
+		 <% end %>	
+		</table>	
+		<% end %>
+		<br/>
+	  <% end %>	
+
+  	<input type="button"  onclick="update_map();" value="Update Map" name="updateMap" id="updateMap">
+	  <br/>
+	  </div>
+	<% end %>
+
+	<div id="entryTable">
+	    <%= render(:partial=>'search_results',:object=>@entries) %>
+	</div>
+	<div id="mapUpdates"/>
+		
+<% end %>

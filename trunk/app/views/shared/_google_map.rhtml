@@ -1,0 +1,28 @@
+	<% 
+       width=500 if width.nil?
+	   height=500 if height.nil? 
+	   show_icon_message=true if show_icon_message.nil?
+	   show_quick_zoom=true if show_quick_zoom.nil?
+	   show_quick_jump=false if show_quick_jump.nil?
+    %>
+	
+	<% if show_icon_message %>
+		White flags show other's observations, yellow flags show your observations<br/>
+	<% end %>
+	
+	<% if show_quick_zoom %>
+		Quick zoom: <a href="#map" onclick="JavaScript:setMapZoom(1);">[world]</a> | <a href="#map" onclick="JavaScript:setMapZoom(6);">[region]</a> | <a href="#map" onclick="JavaScript:setMapZoom(12);">[city]</a> | <a href="#map" onclick="JavaScript:setMapZoom(15);">[detailed]</a><br/>
+	<% end %>
+	
+	<%= @map.to_html %>
+	<%= @map.div(:width => width, :height =>height)%>  
+	
+	<% if show_quick_jump %>
+		<div id="formDIV">
+		<input type="hidden" value="true" name="from_quick_jump">
+		Jump to city/address: <%= text_field(:entry, :location,{:value=>@address || "",:size=>50, :maxlength=>255})%>
+		  <input type="button" onClick="getCoords();" id="submit_button" name="submit_button" value="Go"></td>
+		</div>
+		<span id="response_message" class="warning"></span>
+		
+	<% end %>

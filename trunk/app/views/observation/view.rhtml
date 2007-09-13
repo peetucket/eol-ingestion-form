@@ -1,0 +1,51 @@
+
+<h1>Observation of <%= @entry.organism.name %></h1>
+<br/>  <%= link_to "[all observations for this organism]", :controller=>"organism", :action=>"view", :id=> @entry.organism.id %>
+<br/>
+<table class="observation">
+<tr><th>Date</td><td><%= format_date_time(@entry.date) %></td></tr>
+<tr><th>Observered by</td><td><%=@entry.user.fullname%></td></tr>
+<% if @entry.number > 1 %>
+	<tr><th>Number Seen</th><td><%=@entry.number.to_s%></td></tr>
+<% end %>
+<% if @entry.temperature != nil %>
+	<tr><th>Temperature</th><td><%=sprintf("%.1f",@entry.temperature.to_s)%>&deg;c (<%=sprintf("%.1f",convert_celcius_to_fahrenheit(@entry.temperature))%>&deg;F)</td></tr>
+<% end %>
+<% if @entry.salinity != nil %>
+	<tr><th>Salinity</th><td><%=@entry.salinity.to_s%></td></tr>
+<% end %>
+<tr><th>Habitat</td><td><%=@entry.habitat.name%></td></tr>
+<tr><th>Location</td><td><%=@entry.location%></td></tr>
+<tr><th>Description</td><td><%=@entry.description%></td></tr>
+<tr><th>Coordinates</td><td><%=formatLatLonDecimalAsDegrees(@entry.confidence_range,@entry.confidence_range_units,@entry.lat,@entry.lon)%>
+	<% if @entry.confidence_range>0 then %><a href="#map" onclick="JavaScript:drawConfidenceRange();">[draw circle]</a></td></tr><% end %>
+</table>
+
+<% if @entry.data_points.count > 0 %>
+<br/>
+	    <%= render(:partial=>'view_attributes',:object=>@entry) %>
+<% end %>
+
+<% if @entry.assets.count > 0 %>
+<br/>
+	    <%= render(:partial=>'view_assets',:object=>@entry) %>
+<% end %>
+
+<% if @entry.images.count == 1%>
+	Image: 
+	<br/>
+ 	<%= image_tag(@entry.images[0].public_filename) %>
+<% end %>
+
+<br/>
+<br/>
+
+<%= render(:partial=>'shared/google_map',:object=>@map,:locals=>{:show_icon_message=>false,:show_quick_zoom=>true, :width=>600,:height=>400, :show_quick_jump=>false}) %>
+
+  
+ <script language="JavaScript" type="text/javascript">
+	function drawConfidenceRange() {
+		drawCircle('<%=@entry.lat%>','<%=@entry.lon%>','<%=@entry.confidence_range%>','<%=@entry.confidence_range_units%>');
+	}
+</script>
+

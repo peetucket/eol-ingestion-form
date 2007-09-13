@@ -1,0 +1,5 @@
+page << @map.set_center(GLatLng.new([@lat,@lon]))
+page << @map.set_zoom(@zoom)
+
+page.replace_html('response_message',@response_message) 
+page.call 'hideAjaxIndicator'

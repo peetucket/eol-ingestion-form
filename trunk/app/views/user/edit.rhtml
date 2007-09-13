@@ -1,0 +1,18 @@
+<% @html_page_title = "Create Account" -%>
+
+<%= error_messages_for 'user' %>
+
+<p>Edit your account information below (only enter a new password if you wish to change it). <%=required_field_message%></p>
+
+<% form_tag do %>
+
+<table class="formTable">
+ 
+ <%= render(:partial=>'edit',:object=>@user) %>
+ </table>
+
+      <div class="button-bar">
+        <%= submit_tag 'Edit Account Information',{:class => "submitButton"} %>
+      </div>
+
+<% end %>
