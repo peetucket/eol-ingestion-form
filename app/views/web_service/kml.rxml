@@ -1,0 +1,37 @@
+icon_base_url="http://maps.google.com/mapfiles/kml/pal3/"
+icon_counter=8
+
+xml.instruct! :xml, :version=>"1.0"
+xml.kml :xmlns=>"http://earth.google.com/kml/2.2" do
+  xml.Folder :id=>"EOL" do
+  xml.name("EOL Observations - searched at " + format_short_date(Time.now))
+  for unique_user in @unique_users
+    xml.Folder :id=>unique_user[0] do
+      xml.Style :id=>unique_user[0]+"style" do
+        xml.IconStyle do
+          xml.Icon :id=>unique_user[0] do
+            xml.href(icon_base_url + "icon" + icon_counter.to_s + ".png")
+          end
+         end
+        end
+      icon_counter += 1
+      xml.name(unique_user[0])
+      for entry in @entries
+        if entry.user.fullname==unique_user[0]
+          xml.Placemark do
+            xml.styleUrl("#" + unique_user[0]+"style")
+            xml.name(entry.organism.name)
+            xml.description(info_window_marker(entry))
+            xml.Point do
+                xml.coordinates(entry.lon.to_s + "," + entry.lat.to_s)   
+            end
+            xml.TimeStamp do
+              xml.when(format_date_for_kml(entry.date))
+            end
+          end
+        end
+      end
+    end
+   end
+  end
+end

@@ -1,0 +1,18 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+one:
+  id: 1
+  name: land
+  position: 1
+two:
+  id: 2
+  name: water
+  position: 2
+three:
+  id: 3
+  name: lab
+  position: 3
+four:
+  id: 4
+  name: zoo
+  position: 4
+  

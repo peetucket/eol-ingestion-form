@@ -1,0 +1,20 @@
+default_user:
+  id: 1
+  password_salt: o1XZOydc #password is test
+  password_hash: 244763862346c8c14bdef5e9c6f1773f1be9d3bb29641cd12d763aad879dbc66
+  email: test@test.com
+  fullname: Default User
+  address: 2 Water Street, Woods Hole, MA
+  institution: MBL
+  active: 1
+  admin: 1 
+test_user:
+  id: 2
+  password_salt: o1XZOydc #password is test
+  password_hash: 244763862346c8c14bdef5e9c6f1773f1be9d3bb29641cd12d763aad879dbc66
+  email: test2@test.com
+  fullname: Test User 2
+  address: 2 Water Street, Woods Hole, MA
+  institution: MBL
+  active: 1
+  admin: 0 

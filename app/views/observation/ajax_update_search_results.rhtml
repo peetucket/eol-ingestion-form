@@ -1,0 +1,16 @@
+
+	<script language="JavaScript">
+		map.clearOverlays();
+		$('updateMap').value='Update Map';
+		$('updateMap').disabled=false;
+		hideAjaxIndicator();
+		<% for entry in @entries 
+			if session[:user]==nil || (session[:user]!=nil && session[:user]!=entry.user)
+				icon_name="other_icon"
+			else
+				icon_name="your_icon"
+			end
+			%>
+			map.addOverlay(addInfoWindowToMarker(new GMarker(new GLatLng(<%=entry.lat%>,<%=entry.lon%>),{title : "<%=h entry.organism.name%>",icon : <%=icon_name%>}),"<%=info_window_marker(entry,true)%>",{}));
+		<% end %>
+	</script>

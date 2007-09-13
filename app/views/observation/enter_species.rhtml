@@ -1,0 +1,45 @@
+<h1>Record an Observation</h1>
+
+<p>Start by entering in the organism name.  The system will display any known
+organism names, so you can quickly select an existing organism.
+</p>
+
+<%= error_messages_for 'organism' %>
+
+<% form_tag do %>
+
+<table class="form">
+ <tr>
+	 <td valign="top" width="150"><span class="form_fields_required">Organism Name:</span></td>
+	 <td valign="top"><%= text_field(:organism, :name, {:autocomplete => 'off' ,:size=>80, :maxlength=>200}) %>
+	   <div class="auto_complete" id="organism_name_auto_complete"></div>
+	   <%= auto_complete_field :organism_name,:min_chars=>3,:url => {:action => 'get_namebank_names' } %>     
+	 </td>
+ </tr>
+ 
+ <% if @your_organisms.size > 0 %>
+  <tr>
+ 	<td valign="top" width="150"><span class="form_fields">Organisms you have previously observered:</span></td>
+	<td>
+	<script language="JavaScript">
+	function selectOrganism() 
+	{
+		document.forms[0].organism_name.value=document.forms[0].organism_id.options[document.forms[0].organism_id.selectedIndex].text;
+		submitForm();
+	}
+	</script>
+	<%= select(:organism,:id, @your_organisms,{},{:size=>"7",:onchange=>"selectOrganism();"}) %>
+	</td>
+</tr>
+<% end %>
+
+   <tr>
+ <td></td>
+  <td align=center> <input type="button" onClick="submitForm();" id="submit_button" name="submit_button" value="Submit"></td>
+</td>
+</tr>
+
+</table>
+  
+<% end %>
+	

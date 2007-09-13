@@ -1,0 +1,18 @@
+<% @html_page_title = "Create Account" -%>
+<h1>Create an Account</h1>
+
+<%= error_messages_for 'user' %>
+
+<p>Create your account by entering all of the information below. <%=required_field_message%></p>
+
+<% form_tag (:action=>"create") do%>
+
+<table class="formTable"> 
+ <%= render(:partial=>'edit',:object=>@user) %>
+ </table>
+
+      <div class="button-bar">
+        <%= submit_tag 'Create Account',{:class => "submitButton"} %>
+      </div>
+
+<% end %>

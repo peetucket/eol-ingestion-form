@@ -1,0 +1,28 @@
+<h1>Edit User</h1>
+
+<%= error_messages_for 'user' %>
+
+<p>Edit the account information below (only enter a new password if you wish to change it):</p>
+
+<% form_tag (:action=>"edit_user", :id => @user) do %>
+
+<table class="formTable">
+
+  <tr>
+    <td class="form_fields">Administrator:</td>
+    <td class="value"><%if $MAGIC_USERS.include?(@user.email)%><%=@user.admin%><%else%><%=check_box("user","admin")%><%end%></td>
+  </tr>
+   <tr>
+    <td class="form_fields">Account active:</td>
+    <td class="value"><%if $MAGIC_USERS.include?(@user.email)%><%=@user.active%><%else%><%=check_box("user","active")%><%end%></td>
+  </tr> 
+    <%= render(:partial=>'user/edit',:object=>@user) %>
+ </table>
+
+      <div class="button-bar">
+        <%= submit_tag 'Update',{:class => "submitButton"} %> | <%= link_to 'Cancel', :action => 'list_users' %>
+      </div>
+
+<% end  %>
+
+

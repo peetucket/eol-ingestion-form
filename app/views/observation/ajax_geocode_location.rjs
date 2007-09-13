@@ -1,0 +1,13 @@
+page['entry_lat'].value=@lat
+page['entry_lon'].value=@lon
+page['entry_location'].value=@full_address
+
+page << @map.clearOverlays()
+page << @map.add_overlay(GMarker.new([@lat,@lon]))
+page << @map.set_center(GLatLng.new([@lat,@lon]))
+page << @map.set_zoom(@zoom)
+
+page.call 'updateLatLonDegrees'
+
+page.replace_html('response_message',@response_message) 
+page.call 'hideAjaxIndicator'

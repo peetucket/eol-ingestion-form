@@ -1,0 +1,2 @@
+module RecordObservationHelper
+end

@@ -1,0 +1,27 @@
+		<table class="form">
+		 <tr>
+			 <td valign="top" width="150"><span class="form_fields">Organism:</span></td>
+			 <td valign="top"><%= text_field(:organism, :name, {:autocomplete => 'off' ,:size=>30, :maxlength=>200}) %>
+			   <div class="auto_complete" id="organism_name_auto_complete"></div>
+			   <%= auto_complete_field :organism_name,:min_chars=>3,:url => {:action => 'get_organism_names' } %>     
+			 </td>
+		 </tr>
+		 <% if session[:user] != nil && show_your_organisms %>
+		 	<% if @your_organisms.size > 0 %>
+			 <tr>
+				<td valign="top" width="150"><span class="form_fields">Organisms you have observered:</span></td>
+				<td>
+				<script language="JavaScript">
+				function selectOrganism() 
+				{
+					document.forms[0].organism_name.value=document.forms[0].organism_id.options[document.forms[0].organism_id.selectedIndex].text;
+					submitForm();
+				}
+				</script>
+				<%= select(:organism,:id, @your_organisms,{},{:size=>"7",:onchange=>"selectOrganism();"}) %>
+				</td>
+			</tr>
+		<% 
+		  end
+		end %>
+		</table>

@@ -1,0 +1,118 @@
+UbioServices
+============
+Peter Mangiafico
+Ruby on Rails Plugin
+August 2007
+
+This plugin provides hooks to the uBio webservices to perform any required look ups
+from with Ruby code.  
+
+It is currently designed to work with v2.0 of the uBio services.
+http://www.ubio.org/index.php?pagename=services_overview
+
+To install, drop the whole "ubio_services" folder into your Rails application
+"vendor/plugins" folder and restart the application. Be sure the following file exists 
+in the "config" folder of your Rails application: "ubio_key.yml".
+This file contains your uBio Web service key from the uBio website.
+An example yml file is provided in the plugins folder.
+
+A "Ubio" namespace is defined, with two classes called "Services" and "Config".
+
+The following functions are available in the Ubio namespace in the "Services" class:
+
+############################################################   
+1. namebank_search(search_term, :timeout_seconds=> timeout, :limit=> max_records, :qualifier=> qualifier, :scope=> scope)
+
+Pass in a search term string, and optionally specify a timeout in seconds (defaults to 2),
+a limit for the number of returned records (defaults to 10), a qualifier and a scope.
+
+The possible values for :qualifier are "equals", "begins" and "contains", with a
+default of "contains".
+
+The possible values for :scope are "sci", "vern" or "all" which determines if the returned
+results are scientific names, vernacular names or both combined.  Default is "all".
+
+The result is a 2-dimensional array of nameString and nameBankID pairs sorted by
+nameString alphabetically.  The length of the array reflects the number of returned results. 
+
+If the timeout has passed with no return from the webservice, a blank array is returned.
+
+e.g.
+
+result_array=Ubio::Services.namebank_search('Aotus', :timeout_seconds=>2)
+result_array.size         							  -- returns 10
+result_array[0][0] 							          -- returns "Aotus Illiger, 1811."
+result_array[0][1]         							  -- returns "108955"
+result_array.each {|item| print item[0] + "\n"}       -- prints out all the returned namestrings
+
+
+############################################################        
+2. get_namebank_ID(search_term, :timeout_seconds=> timeout)
+
+This returns an exact match for the supplied search term in terms of a namebank ID as a string. 
+You can optionally specify a timeout in seconds (defaults to 1).
+
+If no exact match is located or the timeout has passed with no response, a blank value is returned.
+
+e.g.
+
+Ubio::Services.get_namebank_ID('Aotus Illiger, 1811.')          -- returns "108955"
+
+############################################################           
+3. ajax_namebank_search(search_term, :timeout_seconds=> timeout, :limit=> max_records)
+
+This is optimized for an auto-complete drop-down Ajax call and performs a search
+based on "starts with" on both vernacular and scientific names.
+
+Pass in a search term string, and optionally specify a timeout in seconds (defaults to 1)
+and a limit for the number of returned records (defaults to 10).
+
+The result is a 2-dimensional array of nameString and nameBankID pairs sorted by
+nameString alphabetically.  The length of the array reflects the number of returned results. 
+
+If the timeout has passed with no return from the webservice, a blank array is returned.
+
+e.g.
+
+result_array=Ubio::Services.ajax_namebank_search('Aotus')
+result_array.size         							  -- returns 10
+result_array[0][0] 							          -- returns "Aotus"
+result_array[0][1]         							  -- returns "4070924"
+result_array.each {|item| print item[0] + "\n"}       -- prints out all the returned namestrings
+
+
+############################################################   
+4. ping(timeout_seconds)
+
+This is simply a way to test if the web service is active and returns "true" or "false".
+The optional parameter is timeout in seconds, which defaults to 1.  If the timeout 
+has passed, "false" is returned.
+
+e.g.
+
+Ubio::Services.ping                -- returns "true"
+
+############################################################ 
+############################################################ 
+
+The following functions are used internally but available in the Ubio namespace in the "Config" class:
+
+############################################################ 
+1. get_key
+
+Returns the appropriate API key from the configuration file as a string.
+
+e.g. 
+
+api_key=Ubio::Config.get_key
+
+############################################################ 
+2. get_base_url
+
+Returns the base URL for the uBio webservices as a string.
+
+e.g. 
+
+base_url=Ubio::Config.get_base_url
+
+

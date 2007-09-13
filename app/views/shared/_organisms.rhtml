@@ -1,0 +1,12 @@
+<table class="observation">
+	
+	<tr><th>Organism</th><th>Observations</th></tr>
+    
+    <% for organism in @organisms %>
+        <tr>
+    	    <td><%= link_to organism.name, :controller => "organism", :action => "view", :id => organism.id %></td>
+			<td><%=organism.entries.count%></td>
+	    </tr>
+    <% end %>
+    
+</table>

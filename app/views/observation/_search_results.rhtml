@@ -1,0 +1,33 @@
+<table class="observation">
+	
+	<tr>
+		<% if @location_search %>
+		<th>Distance (<%=@range_unit%>)</th>
+		<% end %>
+	
+	<th>Organism</th><th>Date</th><th>Location</th><th>Recorded by</th></tr>
+    
+    <% for entry in @entries %>
+   	 <tr>
+			<%		
+			if @location_search
+				if @range_unit=="miles"
+					distance=entry.distance
+				else
+					distance=entry.distance_kms
+				end
+			%>
+			   <td><%= sprintf("%.1f",distance) %></td>
+			<% end  %>
+			
+			<td><%= link_to entry.organism.name, :controller => "organism", :action => "view", :id => entry.organism.id %>
+			</td>
+			<td><%=h format_date(entry.date)%></td>
+			<td><a href="#map" onclick="JavaScript:panAndZoom(<%=entry.lat%>,<%=entry.lon%>,10);"><%=h entry.displayed_location%></a><br>
+			(<%=formatLatLonDecimalAsDegrees(entry.confidence_range,entry.confidence_range_units,entry.lat,entry.lon)%>)
+			</td>
+			<td><%= link_to entry.user.fullname, :controller => "observation", :action => "view_observer", :id => entry.user.id %></td>	
+		</tr>
+    <% end %>
+    
+</table>

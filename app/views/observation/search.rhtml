@@ -1,0 +1,152 @@
+
+
+<script type="text/javascript" src="/javascripts/yahoo-dom-event.js"></script>
+<script type="text/javascript" src="/javascripts/element-beta-min.js"></script>
+<script type="text/javascript" src="/javascripts/tabview-min.js"></script>
+
+<link href="/stylesheets/tabview.css" rel="stylesheet" type="text/css">
+<link href="/stylesheets/border_tabs.css" rel="stylesheet" type="text/css">
+
+<script type="text/javascript">
+	var myTabs = new YAHOO.widget.TabView("tabs");
+	<% if params[:activeTab] != nil %>
+		myTabs.set('activeIndex', <%=params[:activeTab]%>);
+	<% end %>
+	
+	// if user is downloading Google Earth file, we don't disable the submit button
+	function submitSearchForm() {
+		if (document.forms[0].kml.checked) {
+			document.forms[0].submit();
+		}
+		else
+		{
+			submitForm();
+		}
+	}
+</script>  
+<h1>Search for observations</h1>
+<% form_tag(:action=>"search_results") do %>
+
+<div id="tabs" class="yui-navset">
+	<ul class="yui-nav">
+		<li class="selected"><a href="#tab1"><em>Advanced search</em></a></li>
+		<li><a href="#tab2"><em>Most popular organisms</em></a></li>	
+		<!--<li><a href="#tab3"><em>Search by attribute</em></a></li>	-->	
+	</ul>
+	
+	<div class="yui-content">
+		<div id="formDIV">
+	    Enter criteria into any of the fields.  If you enter criteria in more than one field, the
+		search results will match all of the fields.
+		
+		<%= render(:partial=>'shared/search_by_organism',:locals=>{:show_your_organisms=>false}) %>	
+	
+			 <table class="form">
+			 <tr>
+				 <td valign="top" width="150"><span class="form_fields">Observer name:</span></td>
+				 <td valign="top"><%= text_field(:user, :name, {:autocomplete => 'off' ,:size=>30, :maxlength=>200}) %>
+				   <div class="auto_complete" id="user_name_auto_complete"></div>
+				   <%= auto_complete_field :user_name,:min_chars=>3,:url => {:action => 'get_observer_names' } %>     
+				 </td>
+			 </tr>
+			 <tr>
+				 <td valign="top" width="150"><span class="form_fields">Description contains:</span></td>
+				 <td valign="top"><%= text_field_tag(:description, "", {:size=>30, :maxlength=>200}) %>
+				 </td>
+			 </tr>
+			  <tr>
+				 <td valign="top" width="150"><span class="form_fields">Habitat:</span></td>
+				 <td valign="top"> <%= collection_select(:entry, :habitat_id, Habitat.all, :id, :name, {:prompt=>"all"})%></td>
+			 </tr>
+		 
+			
+			</table>
+
+			
+			<br/>
+			<span class="form_fields">Location:</span><br/>
+			Within
+			<%= text_field(:entry,:confidence_range,{:size=>5, :maxlength=>5, :onchange=>'changeConfidenceRange();'})%> <%= select(:entry,:confidence_range_units,["miles","kilometers"],{},{:onchange=>'changeConfidenceRange();'})%>
+				 of
+				<%= text_field(:entry,:location,{:value=>@location,:size=>50, :maxlength=>255,:onblur=>"JavaScript:getCoords();"})%>
+				<table border="0">
+					<tr><td><a href="JavaScript:getCoords();">[locate on map and update coordinates]</a> | <a href="#" onClick="Element.toggle('coordinates');">[toggle coordinates display]</a>	
+				| <span class="warning" id="response_message"></span></td></tr>
+				<tr><td>
+				<div style="display:none;" id="coordinates">
+				<%= render(:partial=>'shared/lat_lon_entry',:object=>@entries) %>
+				</div>
+				</td></tr>
+		</table>
+				
+	Click on the map to adjust the coordinates to your clicked location<br/>
+		<%= render(:partial=>'shared/google_map',:object=>@map,:locals=>{:show_icon_message=>false,:show_quick_zoom=>true, :width=>400,:height=>300, :show_quick_jump=>false}) %>
+
+		
+		<br/>
+		<span class="form_fields">Limit to <%= select_tag(:limit,options_for_select([["10","10"],["50","50"],["100","100"],["500","500"],["1000","1000"],["5000","5000"]],@limit))%> results</span><br/>
+		<span class="form_fields"><%= check_box_tag(:kml)%> Download results into Google Earth</span>
+
+		</div>
+
+	
+		<div id="popularDIV">
+		<table class="form">
+		 	<% if @popular_organisms.size > 0 %>
+			 <tr>
+				<td valign="top" width="150"><span class="form_fields">Most popular organisms observered:</span></td>
+				<td>		
+				<table class="observation">
+					
+					<tr><th>Organism</th><th>Observations</th></tr>
+				    
+				    <% @popular_organisms.each do |organism,count| %>
+					<tr><td> 
+						<%= link_to organism.name, :controller => "organism", :action => "view", :id => organism.id %>
+					</td>
+					<td> <%= count.to_s%> 
+					</td>
+					</tr>
+				    <% end %>
+				    
+				</table>					
+				</td>
+			</tr>
+		<% end %>
+		</table>
+		</div>
+		
+		<!--
+		<div id="attributeDIV">
+			<table class="form">
+			Search by attributes:
+						 <tr>
+				 <td valign="top" width="150"><span class="form_fields">Attribute name:</span></td>
+				 <td valign="top"><%= text_field(:attribute_value, :name, {:autocomplete => 'off' ,:size=>30, :maxlength=>200}) %>
+				   <div class="auto_complete" id="attribute_value_name_auto_complete"></div>
+				   <%= auto_complete_field :attribute_value_name,:min_chars=>3,:url => {:action => 'get_attribute_value_names' } %>     
+				 </td>
+			 </tr>			 
+			 <tr>
+				 <td valign="top" width="150"><span class="form_fields">Attribute value:</span></td>
+				 <td valign="top"><%= text_field(:data_point, :value, {:autocomplete => 'off' ,:size=>30, :maxlength=>200}) %>
+				   <div class="auto_complete" id="data_point_value_auto_complete"></div>
+				   <%= auto_complete_field :data_point_value,:min_chars=>2,:with=>"'data_point_value=' + document.forms[0].data_point_value.value + '&attribute_value_name=' + document.forms[0].attribute_value_name.value",:url => {:action => 'get_data_point_values' } %>     
+				 </td>
+			 </tr>	
+			</table>
+		</div>
+		-->
+
+	</div>
+	<br/>
+
+	
+	<input type="button" value="Submit" id="submit_button" name="submit_button" onclick="submitSearchForm();">
+</div>
+
+<script type="text/javascript">
+	addLoadEvent(getCoords);
+</script>  
+
+<% end %>

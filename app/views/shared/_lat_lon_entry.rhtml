@@ -1,0 +1,18 @@
+
+<table border="0">
+		<tr><td class="form_fields_required">Latitude<br>(degrees, -90 to 90)</td><td class="form_fields_required">Longitude<br>(degrees, -180 to 180)</td></tr>
+		<tr><td><%= text_field(:entry, :lat, {:onchange=>'updateLatLonDegrees()',:autocomplete => 'off' ,:size=>11, :maxlength=>11}) %></td>
+		<td><%= text_field(:entry,:lon, {:onchange=>'updateLatLonDegrees()',:autocomplete => 'off' ,:size=>11, :maxlength=>11}) %></td></tr>
+		<tr><td colspan="2">Latitude: &nbsp;&nbsp;
+		<%= select_tag(:lat_direction,options_for_select(["N","S"],@lat_direction),{:onchange=>'updateLatLonDecimal()'})%>
+		<%= text_field_tag(:lat_d, params[:lat_d],{:onchange=>'updateLatLonDecimal()',:autocomplete => 'off' ,:size=>2, :maxlength=>2}) %>&deg;
+		<%= text_field_tag(:lat_m, params[:lat_m],{:onchange=>'updateLatLonDecimal()',:autocomplete => 'off' ,:size=>2, :maxlength=>2}) %>'
+		<%= text_field_tag(:lat_s, params[:lat_s],{:onchange=>'updateLatLonDecimal()',:autocomplete => 'off' ,:size=>6, :maxlength=>6}) %>''
+		</td></tr>
+		<tr><td colspan="2">Longitude: 
+		<%= select_tag(:lon_direction,options_for_select(["E","W"],@lon_direction),{:onchange=>'updateLatLonDecimal()'})%>
+		<%= text_field_tag(:lon_d, params[:lon_d],{:onchange=>'updateLatLonDecimal()',:autocomplete => 'off' ,:size=>3, :maxlength=>3}) %>&deg;
+		<%= text_field_tag(:lon_m, params[:lon_m],{:onchange=>'updateLatLonDecimal()',:autocomplete => 'off' ,:size=>2, :maxlength=>2}) %>'
+		<%= text_field_tag(:lon_s, params[:lon_s],{:onchange=>'updateLatLonDecimal()',:autocomplete => 'off' ,:size=>6, :maxlength=>6}) %>''
+		</td></tr>		
+</table>

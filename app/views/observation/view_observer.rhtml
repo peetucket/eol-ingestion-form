@@ -1,0 +1,17 @@
+<h1><%= @user.fullname %></h1>
+
+<% if @organisms.size == 0 %>
+	
+	<p>There have not been any observations by this user.  <%= link_to "Search again", :controller => "observation", :action => "search" %></p>
+
+<% else %>
+
+	<p><br/>There were <%=@num_entries%> organisms observered by this user.</p>
+
+	<br/>
+	
+	<div id="entryTable">
+	    <%= render(:partial=>'shared/organisms',:object=>@organisms) %>
+	</div>
+
+<% end %>

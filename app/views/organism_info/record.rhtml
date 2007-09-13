@@ -1,0 +1,24 @@
+<h1><%= @organism.name %></h1>
+<br/>
+ 
+There are currently <%= @organism.organism_infos.size %> entries for this organism.  Add yours below:
+
+<%= error_messages_for 'organism_info' %>
+
+<% form_tag({:action=>"record",:id=>@organism.id}) do %>
+
+
+<table class="form">
+ <tr>
+	 <td valign="top" width="150"><span class="form_fields">Description:</span></td>
+	 <td valign="top"><%= text_area(:organism_info, :description, {:autocomplete => 'off' ,:cols=>50, :rows=>5}) %></td>
+ </tr>
+  <tr>
+ <td></td>
+  <td align=center>
+  <input type="button" onClick="submitForm();" id="submit_button" name="submit_button" value="Submit"></td>
+</tr>
+</table>
+
+<% end %>
+
