@@ -4,24 +4,4 @@
 
 Welcome to the first open source component of the Encyclopedia of Life.  To learn more about the project, visit the EOL website at http://www.eol.org.
 
-This initial project is a data ingestion form which allows citizen scientists to upload observational data to a website, where it is mashed up with Google Maps to create a global species catalog.  All of this data will eventually be connected to species pages and flow into the full Encyclopedia of Life.
-
-This software is developed in Ruby on Rails, using Rails 1.2.3 and Ruby 1.8.5, along with MySQL as a back-end data store.  It uses 
-
-
-= Details =
-
-To setup the code on your local machine, you'll first need Ruby, Ruby on Rails and MySQL.  Check out the Ruby on Rails site for information on installing everything.  The code runs fine on both Linux and Windows (I'm developing on Windows XP and Ubuntu 7) and should work fine on Mac OS X as well.
-
-In addition, for image resizing, you'll need either ImageMagick or MiniMagick.  One of these packages is used by the attachment_fu plugin, which is in the repository already.  
-
-To get the source code up and running, do the following:
-
-1. Check out the trunk from the subversion repository.
-2. Create the development and test databases in MySQL.
-3. Edit the database configuration information in "config/database.yml" to match your MySQL databases created in step 2.
-4. From a console in your application directory, run "rake db:migrate" to setup the database schema.
-5. Run "rake db:fixtures:load" to setup the core data.
-6. Start webrick or mongrel and cross your fingers "ruby script/server".
-
-Note that there is a Google Maps API Key in the "config/gmaps_api_key.yml" which should work fine for localhost. 
+To get started, check out the document "Getting Started" under downloads.
