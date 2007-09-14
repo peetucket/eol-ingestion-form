@@ -1,4 +1,3 @@
-
 = Getting Started =
 
 
@@ -27,10 +26,12 @@ To get the source code up and running, do the following:
 4. From a console in your application directory, run "rake db:migrate" to setup the database schema.  If you get any errors, it's likely your database connection is failing, so check the database connections and database usernames/passwords.
 5. Run "rake db:fixtures:load" to setup the core data (basically a couple test users, some habitats, a couple organism names).
 6. Start webrick or mongrel and cross your fingers: "ruby script/server" or "ruby script/server webrick".
+7. Set the permissions on the folder "public/uploaded_images" to allow the anonymous web user or your local account (whatever account your development server is running under) to have permissions to write to this folder.  It is (obviously) used to save image uploads.
 7. The test admin user login from the user fixture is "test@test.com" with a password of "test".  Feel free to change it after the first login.
 
 Note that if your PC is not on the Internet, you cannot run the app.  Most pages make use of the Google Maps API or other web services that require a constant connection to the Internet.  Sorry for those off the grid.
 
 Also note that there is a Google Maps API Key in the "config/gmaps_api_key.yml" which should work fine for localhost. Obtain your own Google Maps API key for your host if you need to.  This is used for both the maps and the geocoding.
 
+ 
  
