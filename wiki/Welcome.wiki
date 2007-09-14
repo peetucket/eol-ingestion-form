@@ -2,13 +2,7 @@
 
 
 Welcome to Developers!
-
-== Introduction ==
-
-Welcome to the first open source component of the Encyclopedia of Life.  To learn more about the project, visit the EOL website at http://www.eol.org.
-
-This initial project is a data ingestion form which allows citizen scientists to upload observational data to a website, where it is mashed up with Google Maps to create a global species catalog.  All of this data will eventually be connected to species pages and flow into the full Encyclopedia of Life.
-
+  
 This software is developed in Ruby on Rails, using Rails 1.2.3 and Ruby 1.8.5, along with MySQL as a back-end data store.  It uses many plugins to create a mashup with Google Maps.
 
 
@@ -20,18 +14,19 @@ In addition, for image resizing, you'll need either ImageMagick or MiniMagick.  
 
 To get the source code up and running, do the following:
 
-1. Check out the head of the trunk from the subversion repository.
-2. Create the development and test databases in MySQL on your local MySQL server or whatever database back-end you can get to work (I called mine "eol_ingestion_form_development" and "eol_ingestion_form_test").
-3. Copy the "config/database.example" file to "config/database.yml" and then edit the database configuration information to match your databases created in step 2.
-4. From a console in your application directory, run "rake db:migrate" to setup the database schema.  If you get any errors, it's likely your database connection is failing, so check the database connections and database usernames/passwords.
-5. Run "rake db:fixtures:load" to setup the core data (basically a couple test users, some habitats, a couple organism names).
-6. Start webrick or mongrel and cross your fingers: "ruby script/server" or "ruby script/server webrick".
-7. Set the permissions on the folder "public/uploaded_images" to allow the anonymous web user or your local account (whatever account your development server is running under) to have permissions to write to this folder.  It is (obviously) used to save image uploads.
-7. The test admin user login from the user fixture is "test@test.com" with a password of "test".  Feel free to change it after the first login.
+  # Check out the head of the trunk from the subversion repository.
+  # Create the development and test databases in MySQL on your local MySQL server or whatever database back-end you can get to work (I called mine "eol_ingestion_form_development" and "eol_ingestion_form_test").
+  # Copy the "config/database.example" file to "config/database.yml" and then edit the database configuration information to match your databases created in step 2.
+  # From a console in your application directory, run "rake db:migrate" to setup the database schema.  If you get any errors, it's likely your database connection is failing, so check the database connections and database usernames/passwords.
+  # Run "rake db:fixtures:load" to setup the core data (basically a couple test users, some habitats, a couple organism names).
+  # Start webrick or mongrel and cross your fingers: "ruby script/server" or "ruby script/server webrick".
+  # Set the permissions on the folder "public/uploaded_images" to allow the anonymous web user or your local account (whatever account your development server is running under) to have permissions to write to this folder.  It is (obviously) used to save image uploads.
+  # The test admin user login from the user fixture is "test@test.com" with a password of "test".  Feel free to change it after the first login.
 
 Note that if your PC is not on the Internet, you cannot run the app.  Most pages make use of the Google Maps API or other web services that require a constant connection to the Internet.  Sorry for those off the grid.
 
 Also note that there is a Google Maps API Key in the "config/gmaps_api_key.yml" which should work fine for localhost. Obtain your own Google Maps API key for your host if you need to.  This is used for both the maps and the geocoding.
 
+ 
  
  
