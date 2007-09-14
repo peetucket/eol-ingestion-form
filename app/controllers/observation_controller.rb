@@ -358,6 +358,7 @@ end
 # Web service Calls
 ##########################################################################
   # web service method to enter an observation with an optional attribute all in one step
+ 
  def add_observation
   
     base_url=request.host
@@ -518,6 +519,8 @@ end
   def ajax_geocode_location
     
     # entered location
+    service=params[:service] || ""
+
     location=params[:entry][:location]
     from_quick_jump=params[:from_quick_jump]
     
@@ -540,9 +543,20 @@ end
     @map = Variable.new("map")
     
     # render :nothing=>true if @res.success==false # don't do anything if the address was not found
-  
-    # if we are coming from the google map quick jump and the address was geocoded, use special RJS template
-    render :file=>"app/views/shared/ajax_map_quick_jump.rjs" if from_quick_jump=="true" 
+    
+    if service!="" 
+       if @res.nil?
+         web_service_response(nil)
+       else
+         en=Entry.new
+         en.lat=@lat
+         en.lon=@lon
+         web_service_response(en)
+       end
+    else
+      # if we are coming from the google map quick jump and the address was geocoded, use special RJS template
+      render :file=>"app/views/shared/ajax_map_quick_jump.rjs" if from_quick_jump=="true" 
+    end
     
    end
   

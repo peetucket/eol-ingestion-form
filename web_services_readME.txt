@@ -2,7 +2,7 @@ Data Ingestion From Web Services
 August 15, 2007
 Peter Mangiafico
 
-base_url for all webservices is the default URL for your website
+base_url for all webservices is http://localhost:3000
 replace in all urls below
 
 All web services are REST type, with GETs or POSTs to specified URLs and querystring parameters
@@ -143,7 +143,7 @@ entry_id=xml_doc.elements["//id"].text
 Step 5: To add an attribute to an existing observation.
 
 URL: 
-base_url/observation/record?service=true&entry_id=OBSERVATION ID ID&attribute_name=ATTRIBUTE NAME&attribute_value=ATTRIBUTE VALUE
+base_url/observation/record?service=true&entry_id=OBSERVATION ID&attribute_name=ATTRIBUTE NAME&attribute_value=ATTRIBUTE VALUE
 
 Parameters Required:
 service = true
@@ -167,6 +167,31 @@ xml_doc=REXML::Document.new(resp.body)
 data_point_id=xml_doc.elements["//id"].text
 #####################################
 
+####################################
+Step 6: To geocode a location.
+
+URL: 
+base_url/observation/ajax_geocode_location?service=true&entry[location]=TEXT STRING
+
+Parameters Required:
+service = true
+entry[location] = text to geocode
+
+Returned object is an "entry" XML document with latitude and longitude filled in if available.
+
+To call this service from Ruby and parse the results, use this example:
+
+# insert the common code from step 1 above
+
+location='Woods Hole, MA'
+
+resp=Net::HTTP.get_response(URI.parse(base_url+'/observation/ajax_geocode_location?service=true&entry[location]=' + URI.escape(location)))
+xml_doc=REXML::Document.new(resp.body)
+
+lat=xml_doc.elements["//lat"].text
+lon=xml_doc.elements["//lon"].text
+
+#####################################
 
 #####################################
 Putting it all together
