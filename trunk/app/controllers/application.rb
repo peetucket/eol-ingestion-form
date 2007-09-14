@@ -45,7 +45,7 @@ class ApplicationController < ActionController::Base
       map.icon_global_init(GIcon.new(:image => "http://www.google.com/mapfiles/markerA.png", :icon_size => GSize.new(20,34),:icon_anchor => GPoint.new(10,34),:info_window_anchor => GPoint.new(10,0)),"GBIF")
       map.icon_global_init(GIcon.new(:image => "http://www.google.com/mapfiles/markerB.png", :icon_size => GSize.new(20,34),:icon_anchor => GPoint.new(10,34),:info_window_anchor => GPoint.new(10,0)),"ProMED")
       map.icon_global_init(GIcon.new(:image => "http://www.google.com/mapfiles/markerC.png", :icon_size => GSize.new(20,34),:icon_anchor => GPoint.new(10,34),:info_window_anchor => GPoint.new(10,0)),"whoEPR")
-      map.icon_global_init(GIcon.new(:image => "http://www.google.com/mapfiles/markerD.png", :icon_size => GSize.new(20,34),:icon_anchor => GPoint.new(10,34),:info_window_anchor => GPoint.new(10,0)),"last_user")
+      map.icon_global_init(GIcon.new(:image => "http://www.google.com/mapfiles/markerD.png", :icon_size => GSize.new(20,34),:icon_anchor => GPoint.new(10,34),:info_window_anchor => GPoint.new(10,0)),"NCBI")
 
   end
   
@@ -56,11 +56,11 @@ class ApplicationController < ActionController::Base
       icon_name="other_icon" if session[:user]==nil || (session[:user]!=nil && session[:user]!=entry.user)
 
       # special harccoded icon colors for neil's imported data
-      # special harccoded icon colors for neil's imported data
       case entry.user.id
         when 4: icon_name="ProMED"   
         when 5: icon_name="whoEPR"
-        when 6: icon_name="GBIF"  
+        when 6: icon_name="GBIF"
+        when 10: icon_name="NCBI" 
       end
 
       marker=GMarker.new([entry.lat.to_f,entry.lon.to_f],:icon=>icon_name.intern,:title => entry.organism.name, :info_window => info_window_marker(entry))
