@@ -19,7 +19,7 @@ config.action_controller.perform_caching             = true
 
 ActionMailer::Base.delivery_method = :smtp
 ActionMailer::Base.smtp_settings = {
-:address => "localhost",
+:address => "smtp.mbl.edu",
 :port => 25,
-:domain => "localhost",
+:domain => "eol.org",
 } 
