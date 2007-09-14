@@ -17,7 +17,7 @@ ActiveRecord::Schema.define(:version => 10) do
     t.column "user_id",       :integer
     t.column "asset_type_id", :integer
     t.column "url",           :string
-    t.column "description",   :text
+    t.column "description",   :string
     t.column "created_at",    :datetime,                :null => false
     t.column "updated_at",    :datetime,                :null => false
     t.column "lock_version",  :integer,  :default => 0, :null => false
@@ -27,19 +27,19 @@ ActiveRecord::Schema.define(:version => 10) do
   add_index "assets", ["user_id"], :name => "user_id"
 
   create_table "attribute_values", :force => true do |t|
-    t.column "name",         :string,   :default => "", :null => false
-    t.column "created_at",   :datetime,                 :null => false
-    t.column "updated_at",   :datetime,                 :null => false
-    t.column "lock_version", :integer,  :default => 0,  :null => false
+    t.column "name",         :string,                  :null => false
+    t.column "created_at",   :datetime,                :null => false
+    t.column "updated_at",   :datetime,                :null => false
+    t.column "lock_version", :integer,  :default => 0, :null => false
   end
 
   create_table "data_points", :force => true do |t|
     t.column "attribute_value_id", :integer
     t.column "entry_id",           :integer
-    t.column "value",              :string,   :default => "", :null => false
-    t.column "created_at",         :datetime,                 :null => false
-    t.column "updated_at",         :datetime,                 :null => false
-    t.column "lock_version",       :integer,  :default => 0,  :null => false
+    t.column "value",              :string,                  :null => false
+    t.column "created_at",         :datetime,                :null => false
+    t.column "updated_at",         :datetime,                :null => false
+    t.column "lock_version",       :integer,  :default => 0, :null => false
   end
 
   add_index "data_points", ["attribute_value_id"], :name => "attribute_value_id"
@@ -49,10 +49,13 @@ ActiveRecord::Schema.define(:version => 10) do
     t.column "organism_id",            :integer
     t.column "user_id",                :integer
     t.column "habitat_id",             :integer
+    t.column "number",                 :integer,  :default => 1,       :null => false
     t.column "lat",                    :float,                         :null => false
     t.column "lon",                    :float,                         :null => false
-    t.column "location",               :string,   :default => "",      :null => false
+    t.column "location",               :string,                        :null => false
     t.column "date",                   :datetime
+    t.column "temperature",            :float
+    t.column "salinity",               :float
     t.column "description",            :text
     t.column "confidence_range",       :float,    :default => 0.0,     :null => false
     t.column "confidence_range_units", :string,   :default => "miles", :null => false
@@ -104,20 +107,19 @@ ActiveRecord::Schema.define(:version => 10) do
   add_index "organism_infos", ["organism_id"], :name => "organism_id"
 
   create_table "organisms", :force => true do |t|
-    t.column "block_id",     :integer
-    t.column "child_id",     :integer
-    t.column "union_id",     :integer
-    t.column "name",         :string,   :default => "", :null => false
-    t.column "created_at",   :datetime,                 :null => false
-    t.column "updated_at",   :datetime,                 :null => false
-    t.column "lock_version", :integer,  :default => 0,  :null => false
+    t.column "namebank_id",  :string
+    t.column "union_id",     :string
+    t.column "name",         :string,                  :null => false
+    t.column "created_at",   :datetime,                :null => false
+    t.column "updated_at",   :datetime,                :null => false
+    t.column "lock_version", :integer,  :default => 0, :null => false
   end
 
   create_table "users", :force => true do |t|
     t.column "password_salt", :string
     t.column "password_hash", :string
-    t.column "email",         :string,   :default => "",    :null => false
-    t.column "fullname",      :string,   :default => "",    :null => false
+    t.column "email",         :string,                      :null => false
+    t.column "fullname",      :string,                      :null => false
     t.column "institution",   :string,   :default => ""
     t.column "address",       :text
     t.column "active",        :boolean,  :default => true,  :null => false
@@ -126,5 +128,20 @@ ActiveRecord::Schema.define(:version => 10) do
     t.column "updated_at",    :datetime,                    :null => false
     t.column "lock_version",  :integer,  :default => 0,     :null => false
   end
+
+  add_foreign_key "assets", ["entry_id"], "entries", ["id"], :on_update => :cascade, :on_delete => :set_null, :name => "assets_ibfk_1"
+  add_foreign_key "assets", ["user_id"], "users", ["id"], :on_update => :cascade, :on_delete => :set_null, :name => "assets_ibfk_2"
+
+  add_foreign_key "data_points", ["attribute_value_id"], "attribute_values", ["id"], :on_update => :cascade, :on_delete => :cascade, :name => "data_points_ibfk_1"
+  add_foreign_key "data_points", ["entry_id"], "entries", ["id"], :on_update => :cascade, :on_delete => :cascade, :name => "data_points_ibfk_2"
+
+  add_foreign_key "entries", ["organism_id"], "organisms", ["id"], :on_update => :cascade, :on_delete => :set_null, :name => "entries_ibfk_1"
+  add_foreign_key "entries", ["user_id"], "users", ["id"], :on_update => :cascade, :on_delete => :set_null, :name => "entries_ibfk_2"
+
+  add_foreign_key "images", ["entry_id"], "entries", ["id"], :on_update => :cascade, :on_delete => :set_null, :name => "images_ibfk_1"
+  add_foreign_key "images", ["user_id"], "users", ["id"], :on_update => :cascade, :on_delete => :set_null, :name => "images_ibfk_2"
+
+  add_foreign_key "organism_infos", ["user_id"], "users", ["id"], :on_update => :cascade, :on_delete => :set_null, :name => "organism_infos_ibfk_1"
+  add_foreign_key "organism_infos", ["organism_id"], "organisms", ["id"], :on_update => :cascade, :on_delete => :cascade, :name => "organism_infos_ibfk_2"
 
 end
