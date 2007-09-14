@@ -4,4 +4,25 @@
 
 Welcome to the first open source component of the Encyclopedia of Life.  To learn more about the project, visit the EOL website at http://www.eol.org.
 
-To get started, check out the document "Getting Started" under downloads.
+code on your local machine, you'll first need Ruby, Ruby on Rails and MySQL.  Check out the Ruby on Rails site for information on installing everything.  The code runs fine on both Linux and Windows (I'm developing on Windows XP and Ubuntu 7) and should work fine on Mac OS X as well.
+
+In addition, for image resizing, you'll need either ImageMagick or MiniMagick.  One of    these packages is used by the attachment_fu plugin, which is in the repository already.  ImageMagick or MiniMagick are not the in repository, and you should visit their websites to determine how to install them on your particular OS.
+
+To get the source code up and running, do the following:
+
+  # Check out the trunk from the subversion repository.
+  # Create the development and test databases in MySQL.
+  # Copy the "config/database.example" file to "database.yml" and then edit the database configuration information to match your MySQL databases created in step 2.
+  # From a console in your application directory, run "rake db:migrate" to setup the database schema.
+  # Run "rake db:fixtures:load" to setup the core data (basically a couple test users, some habitats, a couple organism names).
+  # Start webrick or mongrel and cross your fingers: "ruby script/server".
+
+Note that if your PC is not on the Internet, you cannot run the app.  Most pages make use of the Google Maps API or other web services that require a constant connection to the Internet.  Sorry for those off the grid.
+
+Note that there is a Google Maps API Key in the "config/gmaps_api_key.yml" which should work fine for localhost. Obtain your own Google Maps API key for your host if you need to.  This is used for both the maps and the geocoding.
+
+
+ 
+ 
+ 
+ 
