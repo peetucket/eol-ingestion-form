@@ -100,14 +100,14 @@ def search_results
        # set map center
        @map.overlay_init(GMarker.new([@lat.to_f,@lon.to_f],:icon=>:map_center,:title => "Search center", :info_window=>"Search center:<br>" + @location + "<br>" + formatLatLonDecimalAsDegrees(0,"",@lat,@lon)))
  
-       elsif data_point_params[:value] !="" && attribute_value_params[:name] != "" # attribute search, NOT FUNCTIONAL YET
+     #  elsif (data_point_params[:value] !="" && attribute_value_params[:name] != "") # attribute search, NOT FUNCTIONAL YET
  
-            attribute_value=AttributeValue.find_by_name(attribute_value_params[:name]) 
-            if attribute_value.nil? == false
-              data_points=DataPoint.find_all_by_attribute_value_id_and_value(attribute_value.id,data_point_params[:value])
-              @entries=data_points.entries
-            end           
-            @map = create_map(0,0,1)
+      #      attribute_value=AttributeValue.find_by_name(attribute_value_params[:name]) 
+      #      if attribute_value.nil? == false
+      #        data_points=DataPoint.find_all_by_attribute_value_id_and_value(attribute_value.id,data_point_params[:value])
+      #        @entries=data_points.entries
+      #      end           
+      #      @map = create_map(0,0,1)
             
        elsif conditions!="" # advanced search
      
@@ -119,7 +119,7 @@ def search_results
          @map = create_map(0,0,1)
      
      end # end check for location search
-
+     
      if commandstring!=nil # if we've got a search to run, execute and display results
       
        eval(commandstring)
