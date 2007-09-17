@@ -1,0 +1,33 @@
+#labels Phase-Requirements
+#There is a lot to work on to make this system better.  Below is a partial list of items for some ideas.
+
+== Specific Programming Tasks ==
+  * Pagination of search results on pages with many results
+  * Web services to expose data
+  * Ability to import observation data in mass (perhaps via a specifically formatted CSV file that is uploaded)
+  * Add a graph that shows species observations by date in search results page
+  * Need functional and unit tests
+  * Add the ability to use OpenID in addition to the custom login mechanism
+  * The range circle overlayed on Google Maps does not work consistently in IE 7, works fine in Firefox
+  * Make application ready for date/timezone internationalization and customization (currently the default is always eastern time zone).
+  * Search by attributes in addition to geographic search and search by name and description
+  * Ability to upload a specific thumbnail image with an observation instead of having the thumbnail auto-generated
+  * Integrate with Flickr API to pull in related photos based on geography/name strings?
+
+== Areas that need improving and investigation ==
+  * Web services for importation of species data
+  * Google map markers, perhaps switch to marker groups to improve performance when there ar e lots of markers added to the map
+  * Look at using OpenLayers for laying data over maps instead of google maps and markers (http://openlayers.org)
+  * General refactoring... make it RESTful?  ready for Rails 2.0?
+
+== General Areas ==
+  * Ability to filter species that are entered into specific groups to build localized versions (e.g. only show species native to Cape Cod)
+  * Admin interface with ability to view/edit entries and update classifications or species identifications
+  * Ability to assign different users to different "domains" of species to administer them (e.g. the fungus expert keeps on eye on all fungal entries to fix identification problems).
+  * Can we have offline capability (i.e. the ability to record species observations when not connected and then pump the data in when we get online)?  Look at the offline capabilities of the next version of Firefox.
+
+== Science Areas ==
+  * Ability to interface with a classification system such as classification bank to show where  entry belongs in taxonomic tree
+
+ 
+ 
