@@ -1,5 +1,5 @@
 #labels Phase-Requirements
-#There is a lot to work on to make this system better.  Below is a partial list of items for some ideas.
+There is a lot to work on to make this system better.  Below is a partial list of items for some ideas.
 
 == Specific Programming Tasks ==
   * Pagination of search results on pages with many results
@@ -29,5 +29,6 @@
 == Science Areas ==
   * Ability to interface with a classification system such as classification bank to show where  entry belongs in taxonomic tree
 
+ 
  
  
