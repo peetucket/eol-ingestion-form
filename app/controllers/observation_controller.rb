@@ -107,7 +107,8 @@ def search_results
               data_points=DataPoint.find_all_by_attribute_value_id_and_value(attribute_value.id,data_point_params[:value])
               @entries=data_points.entries
             end           
-       
+            @map = create_map(0,0,1)
+            
        elsif conditions!="" # advanced search
      
          commandstring="@entries=Entry.find(:all,:order=>'date DESC',:limit=>" + @limit +  conditions + ")"
