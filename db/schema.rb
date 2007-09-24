@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 10) do
+ActiveRecord::Schema.define(:version => 11) do
 
   create_table "asset_types", :force => true do |t|
     t.column "name",         :string
@@ -127,6 +127,7 @@ ActiveRecord::Schema.define(:version => 10) do
     t.column "created_at",    :datetime,                    :null => false
     t.column "updated_at",    :datetime,                    :null => false
     t.column "lock_version",  :integer,  :default => 0,     :null => false
+    t.column "activate_code", :string
   end
 
   add_foreign_key "assets", ["entry_id"], "entries", ["id"], :on_update => :cascade, :on_delete => :set_null, :name => "assets_ibfk_1"

@@ -3,7 +3,9 @@
 
 <%= error_messages_for 'user' %>
 
-<p>Create your account by entering all of the information below. <%=required_field_message%></p>
+<p>Create your account by entering all of the information below. <%=required_field_message%>
+You must enter a valid email address since you will need to click on a link in an email we will send
+you in order to activate your account.</p>
 
 <% form_tag (:action=>"create") do%>
 

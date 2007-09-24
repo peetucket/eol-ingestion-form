@@ -1,0 +1,9 @@
+Dear <%=@user.fullname%>,
+
+You have successfully created an account on <%=$WEBSITE_NAME%> website.  
+In order to activate your account and begin using the system, you need to click on the link
+below.  If you cannot click on the link in your email, please copy and paste the entire URL into your web browser.
+
+<%=$APP_URL%>/user/activate?email=<%=@user.email%>&activate_code=<%=@user.activate_code%>         
+
+

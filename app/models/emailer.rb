@@ -7,5 +7,13 @@ class Emailer < ActionMailer::Base
     @recipients = user.email
     @from       = $EMAIL_FROM
   end
+
+  def activate_account(user)
+    user=User.find(user.id)
+    @subject    = $WEBSITE_NAME +": Activate Account"
+    @body       = {:user=>user}
+    @recipients = user.email
+    @from       = $EMAIL_FROM
+  end
       
 end

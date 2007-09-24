@@ -35,7 +35,7 @@ class User < ActiveRecord::Base
     if user.active?
       user
     else
-      raise "Your account is not currently active.  Contact us to re-activate your account."
+      raise "Your account is not currently active.  If you have just created your account, you will need to activate it by clicking on the link in the email we have sent you."
     end
   end
     
