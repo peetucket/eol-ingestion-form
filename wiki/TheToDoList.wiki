@@ -24,12 +24,12 @@ There is a lot to work on to make this system better.  Below is a partial list o
   * Ability to filter species that are entered into specific groups to build localized versions (e.g. only show species native to Cape Cod)
   * Admin interface with ability to view/edit entries and update classifications or species identifications
   * Ability to assign different users to different "domains" of species to administer them (e.g. the fungus expert keeps on eye on all fungal entries to fix identification problems).
-  * Verify user's email address when registering by sending them an email link which they must click to activate their account.
   * Can we have offline capability (i.e. the ability to record species observations when not connected and then pump the data in when we get online)?  Look at the offline capabilities of the next version of Firefox.
 
 == Science Areas ==
   * Ability to interface with a classification system such as classification bank to show where  entry belongs in taxonomic tree
 
+ 
  
  
  
