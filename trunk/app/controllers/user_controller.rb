@@ -57,9 +57,13 @@ class UserController < ApplicationController
          @errors += "Please ensure the two passwords you have entered match.<br/>" if params[:password]!=params[:password_confirmation]
 	     if @errors.empty? # if no errors occur, try to save user
             @user.password=params[:password]
+            @user.active=false
             if @user.save
-              flash[:notice]='Your account was successfully created.'
-              session[:user]=@user
+              activate_code=[Array.new(12){rand(256).chr}.join].pack("m").chomp
+              @user.activate_code=activate_code
+              @user.save
+              Emailer.deliver_activate_account(@user)
+              flash[:notice]='Your account was successfully created, but is not yet active.  In order to activate your account, please check your email and click on the link we have sent you.  It may take a few minutes for you to receive the email.'
               redirect_to :controller=>'home',:action=>'index'
             end
          else # otherwise show errors
@@ -117,6 +121,28 @@ class UserController < ApplicationController
         @user=session[:user]
       
       end
+      
+    end
+    
+    def activate
+    
+      email=params[:email]
+      activate_code=params[:activate_code]
+      
+      if activate_code.nil? == false
+        user=User.find_by_email_and_activate_code(email,activate_code)
+        if user.nil? == false
+          user.active=true
+          user.activate_code=""
+          user.save
+          session[:user] = user
+          flash[:notice]='Welcome ' + user.fullname + '!  Your account was successfully activated.'
+          redirect_to(:controller=>'home',:action=>'index')
+          return
+        end
+      end
+      
+      render :nothing=>true 
       
     end
     	
