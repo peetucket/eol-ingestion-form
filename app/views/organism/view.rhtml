@@ -27,7 +27,7 @@
 	
 	<a href="#map">[view map]</a> | <a href="<%=request.request_uri%>?kml=true">[download Google Earth file]</a><br/>
 	<div id="entryTable">
-	    <%= render(:partial=>'shared/organism_observations',:object=>@entries) %>
+	    <%= render(:partial=>'shared/organism_observations',:object=>@entries,:locals=>{:show_organism_column=>false}) %>
 	</div>
 
 	<br/><br/>

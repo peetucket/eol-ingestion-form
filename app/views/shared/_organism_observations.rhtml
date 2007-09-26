@@ -1,9 +1,12 @@
 <table class="observation">
 	
-	<tr><th>Date</th><th>Location</th><th>Recorded by</th><th>Thumbnail</th><th> </th></tr>
+	<tr>
+		<% if show_organism_column == true %><th>Organism</th><% end %>
+		<th>Date</th><th>Location</th><th>Recorded by</th><th>Thumbnail</th><th> </th></tr>
     
     <% for entry in @entries %>
         <tr>
+        	<% if show_organism_column == true %><td><%=link_to entry.organism.name, :controller => "organism", :action => "view", :id => entry.organism.id %></td><% end %>
         	<td><%=h format_date(entry.date)%></td>
 			<td><a href="#map" onclick="JavaScript:panAndZoom(<%=entry.lat%>,<%=entry.lon%>,10);"><%=h entry.displayed_location%></a><br>(<%= formatLatLonDecimalAsDegrees(entry.confidence_range,entry.confidence_range_units,entry.lat,entry.lon)%>)</td>
 			<td><%=link_to entry.user.fullname, :controller => "observation", :action => "view_observer", :id => entry.user.id %></td>

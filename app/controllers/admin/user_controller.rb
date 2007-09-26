@@ -1,4 +1,4 @@
-class AdminController < ApplicationController
+class Admin::UserController < ApplicationController
 
     before_filter :check_authentication_admin
     verify :method => :post, :only => [ :destroy_user ],

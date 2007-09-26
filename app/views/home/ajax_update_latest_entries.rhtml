@@ -1,4 +1,4 @@
-    <%= render(:partial=>'observations',:object=>@entries) %>
+    <%= render(:partial=>'shared/organism_observations',:object=>@entries,:locals=>{:show_organism_column=>true}) %>
 	<script language="JavaScript">
 		map.clearOverlays();
 		<% for entry in @entries 
