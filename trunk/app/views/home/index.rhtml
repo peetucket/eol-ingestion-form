@@ -10,7 +10,7 @@
 <p>The latest observations recorded are shown below, updated every 30 seconds:</p>
 
 <div id="entryTable">
-    <%= render(:partial=>'observations',:object=>@entries) %>
+    <%= render(:partial=>'shared/organism_observations',:object=>@entries,:locals=>{:show_organism_column=>true}) %>
 </div>
 
 

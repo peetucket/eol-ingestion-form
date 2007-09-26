@@ -63,7 +63,7 @@
 	
 	<% if session[:user] != nil && session[:user].admin %>
 		  <hr>
-	      <%= link_to("Edit Users",{:controller=>"admin", :action=>"list_users"}, {:class=>"menu"})%>
+	      <%= link_to("Edit Users",{:controller=>"admin/user", :action=>"list_users"}, {:class=>"menu"})%>
 	<% end %>
 
 </div>
