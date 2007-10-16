@@ -15,5 +15,5 @@ class Image < ActiveRecord::Base
 # :processor => 'Rmagick'  if using rmagick
 
   validates_as_attachment
-  
+    
 end

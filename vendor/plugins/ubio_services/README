@@ -92,6 +92,24 @@ e.g.
 
 Ubio::Services.ping                -- returns "true"
 
+############################################################           
+5. namebank_id_search(search_term, :timeout_seconds=> timeout)
+
+This searches namebank for the given namebank_id and returns an array of matching namestrings
+
+Pass in a namebank ID string, and optionally specify a timeout in seconds (defaults to 1).
+
+The result is an array of nameStrings.  The length of the array reflects the number of returned results. 
+
+If the timeout has passed with no return from the webservice, a blank array is returned.
+
+e.g.
+
+result_array=Ubio::Services.namebank_id_search('2483153')
+result_array.size         							  -- returns 1
+result_array[0] 							          -- returns "Felis concolor"
+result_array.each {|item| print item + "\n"}       -- prints out all the returned namestrings
+
 ############################################################ 
 ############################################################ 
 

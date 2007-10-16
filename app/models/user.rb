@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
   validates_format_of :email, :with =>%r{^(?:[_a-z0-9-]+)(\.[_a-z0-9-]+)*@([a-z0-9-]+)(\.[a-zA-Z0-9\-\.]+)*(\.[a-z]{2,4})$}i
   attr_protected :admin, :active, :password_salt, :password_hash
 
-  has_many :entries
+  has_many :entries, :dependent => :nullify
   has_many :data_points
   has_many :images
   has_many :assets
