@@ -1,13 +1,13 @@
 class Entry < ActiveRecord::Base
   
   include GeoKit::Mappable
-  
+
   belongs_to :organism
   belongs_to :user
   
   has_many :images
-  has_many :assets
-  has_many :data_points
+  has_many :assets, :dependent => :delete_all
+  has_many :data_points, :dependent => :delete_all
   has_enumerated :habitat
    
   validates_presence_of :date, :message=>"^Please enter the observation date."

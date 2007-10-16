@@ -125,6 +125,44 @@ module Ubio
         return result_array
         
       end # end ajax_namebank_search function
+ 
+      # get namebank string for a given ID, return array of results
+     def self.namebank_id_search(search_term,params="")
+  
+        timeout_seconds = params[:timeout_seconds] || 1
+        
+        base_url=Ubio::Config.get_base_url + "service_internal.php?version=2.0&function=namebank_object&keyCode=" + Ubio::Config.get_key + "&namebankID=" + URI.escape(search_term)
+ 
+        result_array=Array.new
+                
+        # only give the call a predetermined time to execute, otherwise just return blank value       
+        begin
+          begin
+            response=Timeout::timeout(timeout_seconds) {response=Net::HTTP.get_response(URI.parse(base_url))}
+          rescue TimeoutError 
+            return result_array
+          end
+        rescue
+          return result_array        
+        end 
+        
+        if response.code == "200" # HTML response from webservice is OK
+      
+          xml_document=REXML::Document.new(response.body)
+          
+          xml_document.elements.each("/results") do |node|
+            
+            result_array<<node.elements['nameString'].text
+            
+          end # end loop names
+          
+          return result_array         
+          
+        end # end check for correct HTML response code
+        
+        return result_array
+        
+      end # end namebank_id_search function
       
       def self.ping(timeout_seconds=1)
 

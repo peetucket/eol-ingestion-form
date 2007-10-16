@@ -174,10 +174,13 @@ end
 def view
 
   # get a google map around a specific observation
-   @entry=Entry.find(params[:id],:include=>[:data_points,:images,:assets])        
-
-   @map = create_map(@entry.lat.to_f,@entry.lon.to_f,12)
-   @map.overlay_init(GMarker.new([@entry.lat.to_f,@entry.lon.to_f],:title => @entry.organism.name, :info_window => info_window_marker(@entry)))
+   begin
+     @entry=Entry.find(params[:id],:include=>[:data_points,:images,:assets])        
+     @map = create_map(@entry.lat.to_f,@entry.lon.to_f,12)
+     @map.overlay_init(GMarker.new([@entry.lat.to_f,@entry.lon.to_f],:title => @entry.organism.name, :info_window => info_window_marker(@entry)))
+   rescue
+     redirect_to :controller=>'home',:action=>'error'
+   end
    
  end
 

@@ -1,2 +1,2 @@
-require 'ubio_services'
 require 'config'
+require 'ubio_services'

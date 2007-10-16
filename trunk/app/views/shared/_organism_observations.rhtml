@@ -11,7 +11,11 @@
 			<td><a href="#map" onclick="JavaScript:panAndZoom(<%=entry.lat%>,<%=entry.lon%>,10);"><%=h entry.displayed_location%></a><br>(<%= formatLatLonDecimalAsDegrees(entry.confidence_range,entry.confidence_range_units,entry.lat,entry.lon)%>)</td>
 			<td><%=link_to entry.user.fullname, :controller => "observation", :action => "view_observer", :id => entry.user.id %></td>
 			<td><%=image_tag(entry.images[0].public_filename(:thumb)) if entry.images.count==1  %></td>
-			<td><%=link_to("details",{:controller=>"observation",:action=>"view",:id=>entry.id})%></td>
+			<td><%=link_to("[details]",{:controller=>"observation",:action=>"view",:id=>entry.id})%>
+			<% if session[:user].admin %>
+				 | <%=link_to("[delete]",{:controller=>"admin/organism",:action=>"destroy_observation",:id=>entry.id},:confirm=>"Are you sure you want to delete this observation?",:method=>:post)%>
+			<% end %>
+			</td>
 		</tr>
     <% end %>
     
