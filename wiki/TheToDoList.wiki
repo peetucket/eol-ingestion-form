@@ -28,6 +28,7 @@ There is a lot to work on to make this system better.  Below is a partial list o
 
 == Science Areas ==
   * Ability to interface with a classification system such as classification bank to show where  entry belongs in taxonomic tree
+  * Show both latin and common names on the map and with species (especially if just the latin name is specified, a look up of common name would be possible). This would make the system more accessible. There will also be times when the latin nonemclature is in dispute. 
 
  
  
