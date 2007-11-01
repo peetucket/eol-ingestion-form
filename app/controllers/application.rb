@@ -42,10 +42,10 @@ class ApplicationController < ActionController::Base
       map.icon_global_init(GIcon.new(:image => "/images/other_icon.png", :icon_size => GSize.new(32,32),:icon_anchor => GPoint.new(16,32),:info_window_anchor => GPoint.new(16,0)),"other_icon")
 
       # special hardcoded icon colors for neil's imported data
-      map.icon_global_init(GIcon.new(:image => "http://www.google.com/mapfiles/markerA.png", :icon_size => GSize.new(20,34),:icon_anchor => GPoint.new(10,34),:info_window_anchor => GPoint.new(10,0)),"GBIF")
-      map.icon_global_init(GIcon.new(:image => "http://www.google.com/mapfiles/markerB.png", :icon_size => GSize.new(20,34),:icon_anchor => GPoint.new(10,34),:info_window_anchor => GPoint.new(10,0)),"ProMED")
-      map.icon_global_init(GIcon.new(:image => "http://www.google.com/mapfiles/markerC.png", :icon_size => GSize.new(20,34),:icon_anchor => GPoint.new(10,34),:info_window_anchor => GPoint.new(10,0)),"whoEPR")
-      map.icon_global_init(GIcon.new(:image => "http://www.google.com/mapfiles/markerD.png", :icon_size => GSize.new(20,34),:icon_anchor => GPoint.new(10,34),:info_window_anchor => GPoint.new(10,0)),"NCBI")
+      #map.icon_global_init(GIcon.new(:image => "http://www.google.com/mapfiles/markerA.png", :icon_size => GSize.new(20,34),:icon_anchor => GPoint.new(10,34),:info_window_anchor => GPoint.new(10,0)),"GBIF")
+      #map.icon_global_init(GIcon.new(:image => "http://www.google.com/mapfiles/markerB.png", :icon_size => GSize.new(20,34),:icon_anchor => GPoint.new(10,34),:info_window_anchor => GPoint.new(10,0)),"ProMED")
+      #map.icon_global_init(GIcon.new(:image => "http://www.google.com/mapfiles/markerC.png", :icon_size => GSize.new(20,34),:icon_anchor => GPoint.new(10,34),:info_window_anchor => GPoint.new(10,0)),"whoEPR")
+      #map.icon_global_init(GIcon.new(:image => "http://www.google.com/mapfiles/markerD.png", :icon_size => GSize.new(20,34),:icon_anchor => GPoint.new(10,34),:info_window_anchor => GPoint.new(10,0)),"NCBI")
 
   end
   
@@ -56,12 +56,12 @@ class ApplicationController < ActionController::Base
       icon_name="other_icon" if session[:user]==nil || (session[:user]!=nil && session[:user]!=entry.user)
 
       # special harccoded icon colors for neil's imported data
-      case entry.user.id
-        when 4: icon_name="ProMED"   
-        when 5: icon_name="whoEPR"
-        when 6: icon_name="GBIF"
-        when 10: icon_name="NCBI" 
-      end
+     # case entry.user.id
+     #   when 4: icon_name="ProMED"   
+     #   when 5: icon_name="whoEPR"
+     #   when 6: icon_name="GBIF"
+     #   when 10: icon_name="NCBI" 
+     # end
 
       marker=GMarker.new([entry.lat.to_f,entry.lon.to_f],:icon=>icon_name.intern,:title => entry.organism.name, :info_window => info_window_marker(entry))
       map.overlay_init(marker)
@@ -71,10 +71,12 @@ class ApplicationController < ActionController::Base
  
   # return HTML to be displayed in info marker on map for given entry
   def info_window_marker(entry,sanitize=false)
-    entry_html='<table border="0">'
-    entry_html += '<tr><td><strong>' + entry.organism.name + '</strong>'
+    organism_name=entry.organism.name
+    organism_name.gsub!('"','\'')
+    entry_html='<table width=50% border="0">'
+    entry_html += '<tr><td><strong>' + organism_name + '</strong>'
     entry_html += ' (' + entry.number.to_s + ')' if entry.number > 1
-    entry_html += '<br/>' + entry.displayed_location + '<br/>' + entry.user.fullname + '<br/>' + format_date_time(entry.date) + "</td>"
+    entry_html += '<br/>' + entry.displayed_location + '<br/>' + entry.user.fullname + '<br/>' + format_date(entry.date) + "</td>"
     entry_html += '<td><img src="' + entry.images[0].public_filename(:thumb) + '"></td>' if entry.images.count==1  
     entry_html += "</tr></table>"
     entry_html.gsub!('"','\"') if sanitize==true
