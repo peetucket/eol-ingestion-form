@@ -73,8 +73,8 @@ class ApplicationController < ActionController::Base
   def info_window_marker(entry,sanitize=false)
     organism_name=entry.organism.name
     organism_name.gsub!('"','\'')
-    entry_html='<table width=50% border="0">'
-    entry_html += '<tr><td><strong>' + organism_name + '</strong>'
+    entry_html='<table border="0">'
+    entry_html += '<tr><td width=70%><strong>' + organism_name + '</strong>'
     entry_html += ' (' + entry.number.to_s + ')' if entry.number > 1
     entry_html += '<br/>' + entry.displayed_location + '<br/>' + entry.user.fullname + '<br/>' + format_date(entry.date) + "</td>"
     entry_html += '<td><img src="' + entry.images[0].public_filename(:thumb) + '"></td>' if entry.images.count==1  
