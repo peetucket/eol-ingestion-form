@@ -13,6 +13,9 @@ There is a lot to work on to make this system better.  Below is a partial list o
   * Search by attributes in addition to geographic search and search by name and description
   * Ability to upload a specific thumbnail image with an observation instead of having the thumbnail auto-generated
   * Integrate with Flickr API to pull in related photos based on geography/name strings?
+  * Allow searching by institution name as well as user name
+  * Ability to upload multiple images with a specific observation
+  * Need user groups, so that a school can create an account, and then the school administrator can create sub-accounts for the students, that they can control
 
 == Areas that need improving and investigation ==
   * Web services for importation of species data
@@ -27,7 +30,7 @@ There is a lot to work on to make this system better.  Below is a partial list o
   * Can we have offline capability (i.e. the ability to record species observations when not connected and then pump the data in when we get online)?  Look at the offline capabilities of the next version of Firefox.
 
 == Science Areas ==
-  * Ability to interface with a classification system such as classification bank to show where  entry belongs in taxonomic tree
+  * Ability to interface with a classification system such as classification bank to show where entry belongs in taxonomic tree
   * Show both latin and common names on the map and with species (especially if just the latin name is specified, a look up of common name would be possible). This would make the system more accessible. There will also be times when the latin nonemclature is in dispute. 
 
  
