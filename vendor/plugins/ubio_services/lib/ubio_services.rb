@@ -8,7 +8,7 @@ module Ubio
     class Services
       
       # get all namebank names containing a given search term, combined vernacular and scientific, return an 2-d array
-      def self.namebank_search(search_term,params="")
+      def self.namebank_search(search_term,params={})
         
         timeout_seconds = params[:timeout_seconds] || 2
         limit = params[:limit] || 10
@@ -55,7 +55,7 @@ module Ubio
       end # end namebank_search function
 
       # return a single namebank ID value for a given search term (exact match required)
-     def self.get_namebank_ID(search_term,params="")
+     def self.get_namebank_ID(search_term,params={})
  
         timeout_seconds = params[:timeout_seconds] || 1
         
@@ -88,7 +88,7 @@ module Ubio
      end # end exact namebank search to return an ID
      
      # get namebank names and IDs for an ajax autocomplete call, return an 2-d array
-     def self.ajax_namebank_search(search_term,params="")
+     def self.ajax_namebank_search(search_term,params={})
   
         timeout_seconds = params[:timeout_seconds] || 1
         limit = params[:limit] || 10
@@ -127,7 +127,7 @@ module Ubio
       end # end ajax_namebank_search function
  
       # get namebank string for a given ID, return array of results
-     def self.namebank_id_search(search_term,params="")
+     def self.namebank_id_search(search_term,params={})
   
         timeout_seconds = params[:timeout_seconds] || 1
         
