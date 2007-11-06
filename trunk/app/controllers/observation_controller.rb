@@ -118,6 +118,11 @@ def search_results
          # get a google map ready
          @map = create_map(0,0,1)
      
+       else
+     
+         # get a google map ready
+         @map = create_map(0,0,1)
+         
      end # end check for location search
      
      if commandstring!=nil # if we've got a search to run, execute and display results
