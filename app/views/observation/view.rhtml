@@ -1,6 +1,6 @@
 
 <h1>Observation of <%= @entry.organism.name %></h1>
-			<% if session[:user].admin %>
+			<% if session[:user].nil? == false && session[:user].admin %>
 				 <%=link_to("[delete]",{:controller=>"admin/organism",:action=>"destroy_observation",:id=>@entry.id, :referer=>url_for(:controller=>'organism',:action=>'view', :id=>@entry.organism.id)},:confirm=>"Are you sure you want to delete this observation?",:method=>:post)%><br/>
 			<% end %>
 			
