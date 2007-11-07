@@ -72,7 +72,7 @@ class ApplicationController < ActionController::Base
   # return HTML to be displayed in info marker on map for given entry
   def info_window_marker(entry,sanitize=false)
     organism_name=entry.organism.name
-    organism_name.gsub!('"','\'')
+    organism_name.gsub!('"','')
     entry_html='<table border="0">'
     entry_html += '<tr><td width=70%><strong>' + organism_name + '</strong>'
     entry_html += ' (' + entry.number.to_s + ')' if entry.number > 1
