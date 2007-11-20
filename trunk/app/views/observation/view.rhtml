@@ -19,7 +19,7 @@
 	<tr><th>Salinity</th><td><%=@entry.salinity.to_s%></td></tr>
 <% end %>
 <tr><th>Habitat</td><td><%=@entry.habitat.name%></td></tr>
-<tr><th>Location</td><td><%=@entry.location%></td></tr>
+<tr><th>Location</td><td><%=@entry.displayed_location%></td></tr>
 <tr><th>Description</td><td><%=@entry.description%></td></tr>
 <tr><th>Coordinates</td><td><%=formatLatLonDecimalAsDegrees(@entry.confidence_range,@entry.confidence_range_units,@entry.lat,@entry.lon)%>
 	<% if @entry.confidence_range>0 then %><a href="#map" onclick="JavaScript:drawConfidenceRange();">[draw circle]</a></td></tr><% end %>

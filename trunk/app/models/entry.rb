@@ -40,10 +40,11 @@ class Entry < ActiveRecord::Base
   end
  
   def displayed_location
-  
       if self.location.length < 3 
          "Location:" + self.location
-       else  
+       elsif self.location == "null" || self.location.nil?
+          "--"
+       else
           self.location
        end     
   end
