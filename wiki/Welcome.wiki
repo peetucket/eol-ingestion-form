@@ -27,6 +27,11 @@ Note that if your PC is not on the Internet, you cannot run the app.  Most pages
 
 Also note that there is a Google Maps API Key in the "config/gmaps_api_key.yml" which should work fine for localhost. Obtain your own Google Maps API key for your host if you need to.  This is used for both the maps and the geocoding.
 
- 
+By default, sessions are stored in MySQL.  To cleanup stale sessions over 1 hour old, setup a CRON job or a Windows task to run every few hours or so, and execute the following function from within your Rails application folder:
+
+Windows:  ruby script/runner/SessionCleaner.remove_stale_sessions
+Linux:    ./script/runner/SessionCleaner.remove_stale_sessions
+
+That method is defined in the "lib/session_cleaner.rb" file and removes sessions older than 60 minutes. 
  
  
