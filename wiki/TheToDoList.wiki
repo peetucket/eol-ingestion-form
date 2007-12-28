@@ -4,6 +4,7 @@ There is a lot to work on to make this system better.  Below is a partial list o
 == Specific Programming Tasks ==
   * Pagination of search results on pages with many results
   * Web services to expose data
+  * On the map views, when a pop-up info window appears for a sighting when clicked, offer to take the user straight to that specific detailed observation page with another click
   * Ability to import observation data in mass (perhaps via a specifically formatted CSV file that is uploaded)
   * Add a graph that shows species observations by date in search results page
   * Need functional and unit tests
