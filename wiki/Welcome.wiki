@@ -3,12 +3,12 @@
 
 Welcome to Developers!
   
-This software is developed in Ruby on Rails, using Rails 1.2.3 and Ruby 1.8.5, along with MySQL as a back-end data store.  It uses many plugins to create a mashup with Google Maps.
+This software is developed in Ruby on Rails, using Rails 1.2.3 and Ruby 1.8.5, along with MySQL as a back-end data store.  It uses many plugins to create a mashup with Google Maps.  It should also work with the new Rails 2.0.2.
 
 
 == Details ==
 
-To setup the code on your local machine, you'll first need Ruby, Ruby on Rails and MySQL.  Check out the Ruby on Rails site for information on installing everything.  The code runs fine on both Linux and Windows (I'm developing on Windows XP and Ubuntu 7) and should work fine on Mac OS X as well.
+To setup the code on your local machine, you'll first need a Subversion client to get the code, Ruby to run the code, the Ruby on Rails web framework, and a MySQL database server.  Check out the Ruby on Rails site, http://www.rubyonrails.org,  and the subversion site, http://subversion.tigris.org/, for information on installing everything.  The code runs fine on Linux, Windows and Mac (I'm developing on Windows XP, Ubuntu and OS X 10.5).
 
 In addition, for image resizing, you'll need either ImageMagick or MiniMagick.  One of these packages is used by the attachment_fu plugin, which is in the repository already.  ImageMagick or MiniMagick are not the in repository, and you should visit their websites to determine how to install them on your particular OS.
 
@@ -17,7 +17,7 @@ To get the source code up and running, do the following:
   # Check out the head of the trunk from the subversion repository.
   # Create the development and test databases in MySQL on your local MySQL server or whatever database back-end you can get to work (I called mine "eol_ingestion_form_development" and "eol_ingestion_form_test").
   # Copy the "config/database.example" file to "config/database.yml" and then edit the database configuration information to match your databases created in step 2.
-  # From a console in your application directory, run "rake db:migrate" to setup the database schema.  If you get any errors, it's likely your database connection is failing, so check the database connections and database usernames/passwords.
+  # From a console in your application directory, run "rake db:migrate" to setup the database schema.  If you get any errors, it's likely your database connection is failing, so check the database connections and database usernames/passwords.  Make sure your MySQL server is running.
   # Run "rake db:fixtures:load" to setup the core data (basically a couple test users, some habitats, a couple organism names).
   # Start webrick or mongrel and cross your fingers: "ruby script/server" or "ruby script/server webrick".
   # Set the permissions on the folder "public/uploaded_images" to allow the anonymous web user or your local account (whatever account your development server is running under) to have permissions to write to this folder.  It is (obviously) used to save image uploads.
